@@ -15,15 +15,16 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+        <Router history={browserHistory}>
+          <Route path='/' component={ImageCollection}></Route>
+          <Route path='/collection' component={ImageCollection}></Route>    
+        </Router>
       </div>
     )
   }
 }
 
 ReactDOM.render(
-  <Router history={browserHistory}>
-    <Route path='/' component={App}></Route>
-    <Route path='/collection' component={ImageCollection}></Route>    
-  </Router>,
+  <App/>,
   document.getElementById('react-container')
 );

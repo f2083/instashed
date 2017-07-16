@@ -26178,6 +26178,12 @@ var App = function (_Component) {
             'src/App.js'
           ),
           ' and save to reload.'
+        ),
+        _react2.default.createElement(
+          _reactRouter.Router,
+          { history: _reactRouter.browserHistory },
+          _react2.default.createElement(_reactRouter.Route, { path: '/', component: _imageCollection2.default }),
+          _react2.default.createElement(_reactRouter.Route, { path: '/collection', component: _imageCollection2.default })
         )
       );
     }
@@ -26186,12 +26192,7 @@ var App = function (_Component) {
   return App;
 }(_react.Component);
 
-_reactDom2.default.render(_react2.default.createElement(
-  _reactRouter.Router,
-  { history: _reactRouter.browserHistory },
-  _react2.default.createElement(_reactRouter.Route, { path: '/', component: App }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/collection', component: _imageCollection2.default })
-), document.getElementById('react-container'));
+_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('react-container'));
 
 },{"./components/imageCollection":244,"react":239,"react-dom":54,"react-router":207}],243:[function(require,module,exports){
 'use strict';
