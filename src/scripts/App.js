@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import ImageCollection from './components/imageCollection';
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import ImageCollection from './components/imageCollection'
+
 
 class App extends Component {
   render() {
@@ -13,13 +15,16 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <ImageCollection/>
+        <Router history={browserHistory}>
+          <Route path='/' component={ImageCollection}></Route>
+          <Route path='/collection' component={ImageCollection}></Route>    
+        </Router>
       </div>
-    );
+    )
   }
 }
 
 ReactDOM.render(
-  <App />,
+  <App/>,
   document.getElementById('react-container')
 );

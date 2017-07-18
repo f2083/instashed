@@ -17,7 +17,8 @@ app.get('/', function (req, res) {
 app.get('/images', cl);
 
 app.use(function(req, res, next) {
-  res.status(404).send('Sorry cant find that!');
+  /*res.status(404).send('Sorry cant find that!');*/
+  res.status(404).sendFile(__dirname + '/public/index.html');
 });
 
 app.listen(env.NODE_PORT || 3000, env.NODE_IP || 'localhost', function () {
