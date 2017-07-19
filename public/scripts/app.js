@@ -26163,25 +26163,26 @@ var App = function (_Component) {
         'div',
         { className: 'App' },
         _react2.default.createElement(
-          'div',
-          { className: 'App-header' },
-          _react2.default.createElement('img', { className: 'App-logo', alt: 'logo' }),
+          'ul',
+          null,
           _react2.default.createElement(
-            'h2',
+            'li',
             null,
-            'Welcome to React'
-          )
-        ),
-        _react2.default.createElement(
-          'p',
-          { className: 'App-intro' },
-          'To get started, edit ',
-          _react2.default.createElement(
-            'code',
-            null,
-            'src/App.js'
+            _react2.default.createElement(
+              'a',
+              { href: '/collection' },
+              'Collection'
+            )
           ),
-          ' and save to reload.'
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'a',
+              { href: '/panoramas' },
+              'Panoramas'
+            )
+          )
         ),
         _react2.default.createElement(
           _reactRouter.Router,
@@ -26232,7 +26233,11 @@ var CloudImage = function (_Component) {
 	_createClass(CloudImage, [{
 		key: 'render',
 		value: function render() {
-			return _react2.default.createElement('img', { src: this.props.source, alt: '', width: '300', height: 'auto' });
+			return _react2.default.createElement(
+				'div',
+				{ className: 'CloudImage' },
+				_react2.default.createElement('img', { src: this.props.source, alt: '', width: '300', height: 'auto' })
+			);
 		}
 	}]);
 
@@ -26339,13 +26344,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ImageCollection = function (_Component) {
-	_inherits(ImageCollection, _Component);
+var panoramaCollection = function (_Component) {
+	_inherits(panoramaCollection, _Component);
 
-	function ImageCollection(props) {
-		_classCallCheck(this, ImageCollection);
+	function panoramaCollection(props) {
+		_classCallCheck(this, panoramaCollection);
 
-		var _this = _possibleConstructorReturn(this, (ImageCollection.__proto__ || Object.getPrototypeOf(ImageCollection)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (panoramaCollection.__proto__ || Object.getPrototypeOf(panoramaCollection)).call(this, props));
 
 		_this.state = {
 			resources: []
@@ -26353,12 +26358,12 @@ var ImageCollection = function (_Component) {
 		return _this;
 	}
 
-	_createClass(ImageCollection, [{
+	_createClass(panoramaCollection, [{
 		key: 'render',
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ className: 'image-collection' },
+				{ className: 'panoramaCollection' },
 				this.state.resources.map(function (item, index) {
 					return _react2.default.createElement(_cloudImage2.default, { source: item.url, key: index });
 				})
@@ -26393,9 +26398,9 @@ var ImageCollection = function (_Component) {
 		}
 	}]);
 
-	return ImageCollection;
+	return panoramaCollection;
 }(_react.Component);
 
-exports.default = ImageCollection;
+exports.default = panoramaCollection;
 
 },{"./cloudImage":243,"react":239}]},{},[242]);

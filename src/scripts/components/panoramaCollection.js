@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import CloudImage from './cloudImage';
 
-class ImageCollection extends Component{
+class panoramaCollection extends Component{
 	constructor(props) {
 	    super(props)
 	    this.state = { 
@@ -10,7 +10,7 @@ class ImageCollection extends Component{
 	}
 
 	render(){
-		return (<div className='image-collection'>
+		return (<div className='panoramaCollection'>
 			{this.state.resources.map(function(item, index){
 				return <CloudImage source={item.url} key={index}/>
 			})}			
@@ -45,4 +45,4 @@ class ImageCollection extends Component{
 
 }
 
-export default ImageCollection
+export default panoramaCollection

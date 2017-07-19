@@ -9,13 +9,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <ul>
+          <li><a href='/collection'>Collection</a></li>
+          <li><a href="/panoramas">Panoramas</a></li>
+        </ul>
         <Router history={browserHistory}>
           <Route path='/' component={ImageCollection}></Route>
           <Route path='/collection' component={ImageCollection}></Route> 
