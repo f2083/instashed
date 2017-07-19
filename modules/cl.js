@@ -10,6 +10,8 @@ cloudinary.config({
 https://api.cloudinary.com/v1_1/f2083/resources/image?tags=true;
 */
 
+cloudinary.v2.api.resources({resource_type:'video'},function(error, result){console.log(result)});
+
 module.exports = function(req, res){
 	cloudinary.v2.api.resources({tags: true },function(error, result){res.send(result)});
 };
