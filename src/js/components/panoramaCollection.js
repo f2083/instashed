@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import CloudImage from './cloudImage';
+import httpGet from '../modules/httpGet'
 
 class panoramaCollection extends Component{
 	constructor(props) {
@@ -19,28 +20,19 @@ class panoramaCollection extends Component{
 
 	componentDidMount() {
 		var xhr = new XMLHttpRequest();
-		var result;
+		var responce;
 		var images;
-
-		xhr.open('GET', '/images', true);
-		xhr.send();
-		xhr.onreadystatechange = function() { // (3)
-		  if (xhr.readyState != 4) return;
-
-		  if (xhr.status === 200) {
-		    result = JSON.parse(xhr.responseText).resources;
-		    images = result.filter(function(item){
-		    	if(item.tags.indexOf('panorama') > -1){
-					item.url = item.url.replace('/upload', '/upload/a_exif');
-					return true;
-		    	}
-		    	return false;
-		    });
-
-		    this.setState({resources:images})
-		  }
-
-		}.bind(this)		
+		httpGet('/images?tags=true')
+			.then(function(result){
+				responce = JSON.parse(result);
+				images = responce.resources.filter(function(item){
+					if(item.tags.indexOf('panorama') > -1){
+						item.url = item.url.replace('/upload', '/upload/a_exif');
+						return true;
+		    		}
+				});
+				this.setState({resources: images});
+			}.bind(this));
   	}	
 
 }

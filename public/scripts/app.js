@@ -26131,9 +26131,9 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactRouter = require('react-router');
 
-var _imageCollection = require('./components/imageCollection');
+var _boomerangCollection = require('./components/boomerangCollection');
 
-var _imageCollection2 = _interopRequireDefault(_imageCollection);
+var _boomerangCollection2 = _interopRequireDefault(_boomerangCollection);
 
 var _panoramaCollection = require('./components/panoramaCollection');
 
@@ -26170,8 +26170,8 @@ var App = function (_Component) {
             null,
             _react2.default.createElement(
               'a',
-              { href: '/collection' },
-              'Collection'
+              { href: '/boomerangs' },
+              'Boomerangs'
             )
           ),
           _react2.default.createElement(
@@ -26187,8 +26187,8 @@ var App = function (_Component) {
         _react2.default.createElement(
           _reactRouter.Router,
           { history: _reactRouter.browserHistory },
-          _react2.default.createElement(_reactRouter.Route, { path: '/', component: _imageCollection2.default }),
-          _react2.default.createElement(_reactRouter.Route, { path: '/collection', component: _imageCollection2.default }),
+          _react2.default.createElement(_reactRouter.Route, { path: '/', component: _boomerangCollection2.default }),
+          _react2.default.createElement(_reactRouter.Route, { path: '/boomerangs', component: _boomerangCollection2.default }),
           _react2.default.createElement(_reactRouter.Route, { path: '/panoramas', component: _panoramaCollection2.default })
         )
       );
@@ -26200,7 +26200,127 @@ var App = function (_Component) {
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('react-container'));
 
-},{"./components/imageCollection":244,"./components/panoramaCollection":245,"react":239,"react-dom":54,"react-router":207}],243:[function(require,module,exports){
+},{"./components/boomerangCollection":244,"./components/panoramaCollection":246,"react":239,"react-dom":54,"react-router":207}],243:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Boomerang = function (_Component) {
+  _inherits(Boomerang, _Component);
+
+  function Boomerang() {
+    _classCallCheck(this, Boomerang);
+
+    return _possibleConstructorReturn(this, (Boomerang.__proto__ || Object.getPrototypeOf(Boomerang)).apply(this, arguments));
+  }
+
+  _createClass(Boomerang, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'video',
+        { className: 'Boomerang', width: '400', height: '300', controls: 'controls', autoPlay: true, loop: true },
+        _react2.default.createElement('source', { src: this.props.source, type: 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' }),
+        'A video tag is not supported by your browser.'
+      );
+    }
+  }]);
+
+  return Boomerang;
+}(_react.Component);
+
+exports.default = Boomerang;
+
+},{"react":239}],244:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Boomerang = require('./Boomerang');
+
+var _Boomerang2 = _interopRequireDefault(_Boomerang);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var boomerangCollection = function (_Component) {
+	_inherits(boomerangCollection, _Component);
+
+	function boomerangCollection(props) {
+		_classCallCheck(this, boomerangCollection);
+
+		var _this = _possibleConstructorReturn(this, (boomerangCollection.__proto__ || Object.getPrototypeOf(boomerangCollection)).call(this, props));
+
+		_this.state = {
+			resources: []
+		};
+		return _this;
+	}
+
+	_createClass(boomerangCollection, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				{ className: 'boomerangCollection' },
+				this.state.resources.map(function (item, index) {
+					return _react2.default.createElement(_Boomerang2.default, { source: item.url, key: index });
+				})
+			);
+		}
+	}, {
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', '/images?resource_type=video', true);
+			xhr.send();
+			xhr.onreadystatechange = function () {
+				// (3)
+				if (xhr.readyState != 4) return;
+
+				if (xhr.status === 200) {
+					console.log(xhr.responseText);
+					this.setState({ resources: JSON.parse(xhr.responseText).resources });
+				}
+			}.bind(this);
+		}
+	}]);
+
+	return boomerangCollection;
+}(_react.Component);
+
+exports.default = boomerangCollection;
+
+},{"./Boomerang":243,"react":239}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -26246,7 +26366,7 @@ var CloudImage = function (_Component) {
 
 exports.default = CloudImage;
 
-},{"react":239}],244:[function(require,module,exports){
+},{"react":239}],246:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -26263,78 +26383,9 @@ var _cloudImage = require('./cloudImage');
 
 var _cloudImage2 = _interopRequireDefault(_cloudImage);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _httpGet = require('../modules/httpGet');
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ImageCollection = function (_Component) {
-	_inherits(ImageCollection, _Component);
-
-	function ImageCollection(props) {
-		_classCallCheck(this, ImageCollection);
-
-		var _this = _possibleConstructorReturn(this, (ImageCollection.__proto__ || Object.getPrototypeOf(ImageCollection)).call(this, props));
-
-		_this.state = {
-			resources: []
-		};
-		return _this;
-	}
-
-	_createClass(ImageCollection, [{
-		key: 'render',
-		value: function render() {
-			return _react2.default.createElement(
-				'div',
-				{ className: 'image-collection' },
-				this.state.resources.map(function (item, index) {
-					return _react2.default.createElement(_cloudImage2.default, { source: item.url, key: index });
-				})
-			);
-		}
-	}, {
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			var xhr = new XMLHttpRequest();
-			xhr.open('GET', '/images', true);
-			xhr.send();
-			xhr.onreadystatechange = function () {
-				// (3)
-				if (xhr.readyState != 4) return;
-
-				if (xhr.status === 200) {
-					console.log(xhr.responseText);
-					this.setState({ resources: JSON.parse(xhr.responseText).resources });
-				}
-			}.bind(this);
-		}
-	}]);
-
-	return ImageCollection;
-}(_react.Component);
-
-exports.default = ImageCollection;
-
-},{"./cloudImage":243,"react":239}],245:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _cloudImage = require('./cloudImage');
-
-var _cloudImage2 = _interopRequireDefault(_cloudImage);
+var _httpGet2 = _interopRequireDefault(_httpGet);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26373,28 +26424,18 @@ var panoramaCollection = function (_Component) {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			var xhr = new XMLHttpRequest();
-			var result;
+			var responce;
 			var images;
-
-			xhr.open('GET', '/images', true);
-			xhr.send();
-			xhr.onreadystatechange = function () {
-				// (3)
-				if (xhr.readyState != 4) return;
-
-				if (xhr.status === 200) {
-					result = JSON.parse(xhr.responseText).resources;
-					images = result.filter(function (item) {
-						if (item.tags.indexOf('panorama') > -1) {
-							item.url = item.url.replace('/upload', '/upload/a_exif');
-							return true;
-						}
-						return false;
-					});
-
-					this.setState({ resources: images });
-				}
-			}.bind(this);
+			(0, _httpGet2.default)('/images?tags=true').then(function (result) {
+				responce = JSON.parse(result);
+				images = responce.resources.filter(function (item) {
+					if (item.tags.indexOf('panorama') > -1) {
+						item.url = item.url.replace('/upload', '/upload/a_exif');
+						return true;
+					}
+				});
+				this.setState({ resources: images });
+			}.bind(this));
 		}
 	}]);
 
@@ -26403,4 +26444,33 @@ var panoramaCollection = function (_Component) {
 
 exports.default = panoramaCollection;
 
-},{"./cloudImage":243,"react":239}]},{},[242]);
+},{"../modules/httpGet":247,"./cloudImage":245,"react":239}],247:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = httpGet;
+function httpGet(url) {
+  function sendRequest(resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.onerror = function () {
+      reject(new Error("Network Error"));
+    };
+    xhr.onload = function () {
+      if (this.status == 200) {
+        resolve(this.response);
+      } else {
+        var error = new Error(this.statusText);
+        error.code = this.status;
+        reject(error);
+      }
+    };
+
+    xhr.open('GET', url, true);
+    xhr.send();
+  }
+  return new Promise(sendRequest);
+}
+
+},{}]},{},[242]);
