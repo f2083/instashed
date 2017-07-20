@@ -20,7 +20,7 @@ class boomerangCollection extends Component{
 	componentDidMount() {
 		var xhr = new XMLHttpRequest();
 		var responce;
-		httpGet('/images?tags=true')
+		httpGet('/images?resource_type=video')
 			.then(function(result){
 				responce = JSON.parse(result);
 				this.setState({resources: responce.resources});
