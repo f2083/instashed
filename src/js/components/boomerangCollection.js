@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import Boomerang from './Boomerang';
+import Boomerang from './Boomerang'
+import httpGet from '../modules/httpGet'
 
 class boomerangCollection extends Component{
 	constructor(props) {

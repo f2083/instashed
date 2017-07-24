@@ -26264,6 +26264,10 @@ var _Boomerang = require('./Boomerang');
 
 var _Boomerang2 = _interopRequireDefault(_Boomerang);
 
+var _httpGet = require('../modules/httpGet');
+
+var _httpGet2 = _interopRequireDefault(_httpGet);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26302,7 +26306,7 @@ var boomerangCollection = function (_Component) {
 		value: function componentDidMount() {
 			var xhr = new XMLHttpRequest();
 			var responce;
-			httpGet('/images?resource_type=video').then(function (result) {
+			(0, _httpGet2.default)('/images?resource_type=video').then(function (result) {
 				responce = JSON.parse(result);
 				this.setState({ resources: responce.resources });
 			}.bind(this));
@@ -26314,7 +26318,7 @@ var boomerangCollection = function (_Component) {
 
 exports.default = boomerangCollection;
 
-},{"./Boomerang":243,"react":239}],245:[function(require,module,exports){
+},{"../modules/httpGet":247,"./Boomerang":243,"react":239}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

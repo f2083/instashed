@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import CloudImage from './cloudImage';
+import CloudImage from './cloudImage'
 import httpGet from '../modules/httpGet'
 
 class panoramaCollection extends Component{
@@ -13,7 +13,7 @@ class panoramaCollection extends Component{
 	render(){
 		return (<div className='panoramaCollection'>
 			{this.state.resources.map(function(item, index){
-				return <CloudImage source={item.url} key={index}/>
+				return <CloudImage source={item.url} key={index} />
 			})}			
 		</div>)
 	}
@@ -34,6 +34,8 @@ class panoramaCollection extends Component{
 				this.setState({resources: images});
 			}.bind(this));
   	}	
+  	
+  	
 
 }
 
