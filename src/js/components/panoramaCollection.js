@@ -8,13 +8,14 @@ class panoramaCollection extends Component{
 	    this.state = { 
 	    	resources:[]
 	    }
+	    
 	}
 
-	render(){
+	render(){		
 		return (<div className='panoramaCollection'>
 			{this.state.resources.map(function(item, index){
-				return <CloudImage source={item.url} key={index} />
-			})}			
+				return <CloudImage source={item.url} key={index} onDrag={this.logger}/>
+			}.bind(this))}			
 		</div>)
 	}
 
@@ -35,6 +36,9 @@ class panoramaCollection extends Component{
 			}.bind(this));
   	}	
   	
+  	logger(){
+		console.log(arguments)  	
+	}
   	
 
 }

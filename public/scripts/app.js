@@ -26235,7 +26235,7 @@ var Boomerang = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'video',
-        { className: 'Boomerang', width: '400', height: '300', controls: 'controls', autoPlay: true, loop: true },
+        { className: 'Boomerang', width: '400', height: '300', controls: 'controls', onMouseEnter: this.props.onMouseEnter, loop: true },
         _react2.default.createElement('source', { src: this.props.source, type: 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' }),
         'A video tag is not supported by your browser.'
       );
@@ -26287,6 +26287,7 @@ var boomerangCollection = function (_Component) {
 		_this.state = {
 			resources: []
 		};
+		_this.mouseEnterHandler = _this.mouseEnterHandler.bind(_this);
 		return _this;
 	}
 
@@ -26297,8 +26298,8 @@ var boomerangCollection = function (_Component) {
 				'div',
 				{ className: 'boomerangCollection' },
 				this.state.resources.map(function (item, index) {
-					return _react2.default.createElement(_Boomerang2.default, { source: item.url, key: index });
-				})
+					return _react2.default.createElement(_Boomerang2.default, { source: item.url, key: index, onMouseEnter: this.mouseEnterHandler });
+				}.bind(this))
 			);
 		}
 	}, {
@@ -26310,6 +26311,11 @@ var boomerangCollection = function (_Component) {
 				responce = JSON.parse(result);
 				this.setState({ resources: responce.resources });
 			}.bind(this));
+		}
+	}, {
+		key: 'mouseEnterHandler',
+		value: function mouseEnterHandler(proxy, event) {
+			console.log(arguments);
 		}
 	}]);
 
@@ -26354,7 +26360,7 @@ var CloudImage = function (_Component) {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'CloudImage' },
-				_react2.default.createElement('img', { src: this.props.source, alt: '', width: '300', height: 'auto' })
+				_react2.default.createElement('img', { src: this.props.source, alt: '', width: '300', height: 'auto', onDrag: this.props.onDrag })
 			);
 		}
 	}]);
@@ -26404,6 +26410,7 @@ var panoramaCollection = function (_Component) {
 		_this.state = {
 			resources: []
 		};
+
 		return _this;
 	}
 
@@ -26414,8 +26421,8 @@ var panoramaCollection = function (_Component) {
 				'div',
 				{ className: 'panoramaCollection' },
 				this.state.resources.map(function (item, index) {
-					return _react2.default.createElement(_cloudImage2.default, { source: item.url, key: index });
-				})
+					return _react2.default.createElement(_cloudImage2.default, { source: item.url, key: index, onDrag: this.logger });
+				}.bind(this))
 			);
 		}
 	}, {
@@ -26434,6 +26441,11 @@ var panoramaCollection = function (_Component) {
 				});
 				this.setState({ resources: images });
 			}.bind(this));
+		}
+	}, {
+		key: 'logger',
+		value: function logger() {
+			console.log(arguments);
 		}
 	}]);
 

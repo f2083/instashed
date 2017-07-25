@@ -8,13 +8,14 @@ class boomerangCollection extends Component{
 	    this.state = { 
 	    	resources:[]
 	    }
+	    this.mouseEnterHandler = this.mouseEnterHandler.bind(this)
 	}
 
 	render(){
 		return (<div className='boomerangCollection'>
 			{this.state.resources.map(function(item, index){
-				return <Boomerang source={item.url} key={index}/>
-			})}			
+				return <Boomerang source={item.url} key={index} onMouseEnter={this.mouseEnterHandler}/>
+			}.bind(this))}			
 		</div>)
 	}
 
@@ -26,7 +27,11 @@ class boomerangCollection extends Component{
 				responce = JSON.parse(result);
 				this.setState({resources: responce.resources});
 			}.bind(this));
-  	}		
+  	}	
+  	
+  	mouseEnterHandler(proxy, event){
+  		console.log(arguments)
+  	}	
 
 }
 
