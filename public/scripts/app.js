@@ -26221,6 +26221,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var hhh = 1 === true;
+
 var Boomerang = function (_Component) {
   _inherits(Boomerang, _Component);
 
@@ -26235,7 +26237,7 @@ var Boomerang = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'video',
-        { className: 'Boomerang', width: '400', height: '300', controls: 'controls', onMouseEnter: this.props.onMouseEnter, loop: true },
+        { className: 'Boomerang', width: '400', height: '300', controls: 'controls', onMouseLeave: this.props.onMouseLeave, onMouseEnter: this.props.onMouseEnter, loop: true },
         _react2.default.createElement('source', { src: this.props.source, type: 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' }),
         'A video tag is not supported by your browser.'
       );
@@ -26288,6 +26290,7 @@ var boomerangCollection = function (_Component) {
 			resources: []
 		};
 		_this.mouseEnterHandler = _this.mouseEnterHandler.bind(_this);
+		_this.mouseLeaveHandler = _this.mouseLeaveHandler.bind(_this);
 		return _this;
 	}
 
@@ -26298,7 +26301,7 @@ var boomerangCollection = function (_Component) {
 				'div',
 				{ className: 'boomerangCollection' },
 				this.state.resources.map(function (item, index) {
-					return _react2.default.createElement(_Boomerang2.default, { source: item.url, key: index, onMouseEnter: this.mouseEnterHandler });
+					return _react2.default.createElement(_Boomerang2.default, { source: item.url, key: index, onMouseEnter: this.mouseEnterHandler, onMouseLeave: this.mouseLeaveHandler });
 				}.bind(this))
 			);
 		}
@@ -26314,8 +26317,13 @@ var boomerangCollection = function (_Component) {
 		}
 	}, {
 		key: 'mouseEnterHandler',
-		value: function mouseEnterHandler(proxy, event) {
-			console.log(arguments);
+		value: function mouseEnterHandler(event) {
+			event.target.play();
+		}
+	}, {
+		key: 'mouseLeaveHandler',
+		value: function mouseLeaveHandler(event) {
+			event.target.pause();
 		}
 	}]);
 
@@ -26455,7 +26463,7 @@ var panoramaCollection = function (_Component) {
 exports.default = panoramaCollection;
 
 },{"../modules/httpGet":247,"./cloudImage":245,"react":239}],247:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -26465,10 +26473,10 @@ function httpGet(url) {
   function sendRequest(resolve, reject) {
     var xhr = new XMLHttpRequest();
     xhr.onerror = function () {
-      reject(new Error("Network Error"));
+      reject(new Error('Network Error'));
     };
     xhr.onload = function () {
-      if (this.status == 200) {
+      if (this.status === 200) {
         resolve(this.response);
       } else {
         var error = new Error(this.statusText);

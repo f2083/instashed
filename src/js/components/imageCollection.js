@@ -22,7 +22,7 @@ class ImageCollection extends Component{
 		xhr.open('GET', '/images', true);
 		xhr.send();
 		xhr.onreadystatechange = function() { // (3)
-		  if (xhr.readyState != 4) return;
+		  if (xhr.readyState !== 4) {return}
 
 		  if (xhr.status === 200) {
 		    console.log(xhr.responseText);

@@ -24,11 +24,29 @@
     "babelify": "^7.3.0",
     "grunt-babel": ">= 6.0.0",
     "grunt-browserify": "^5.0.0",
-    "grunt-contrib-watch": "^1.0.0"
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-eslint": "^20.0.0"
   },
   "babel": {
     "presets": [
       "es2015"
     ]
-  }
+  },
+  "eslintConfig": {
+		"env": {
+      	"browser": true
+		},
+		"parserOptions": {
+      	"ecmaVersion": 6,
+        	"sourceType": "module",
+        	"ecmaFeatures": {
+            "jsx": true
+        	}
+		},
+		"rules": {
+        "eqeqeq": "error",
+        "curly": "error",
+        "quotes": ["error", "single"]
+    	}
+    }
 }

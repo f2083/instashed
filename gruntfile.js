@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     watch: {
       browserify: {
         files: ['src/js/**/*.js'],
-        tasks: ['browserify']
+        tasks: ['eslint','browserify']
       }
     },
 
@@ -18,13 +18,19 @@ module.exports = function(grunt) {
         src: ['src/js/*.js'],
         dest: 'public/scripts/app.js',
       }
+    },
+    
+    eslint: {
+        target: ['src/js/**/*.js']
     }
 
   });
 
   grunt.loadNpmTasks('grunt-contrib-watch');  
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-eslint');
 
   grunt.registerTask('default', ['browserify']);
+
 
 };
