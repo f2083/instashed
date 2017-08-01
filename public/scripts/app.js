@@ -26139,6 +26139,10 @@ var _panoramaCollection = require('./components/panoramaCollection');
 
 var _panoramaCollection2 = _interopRequireDefault(_panoramaCollection);
 
+var _Game = require('./components/Game');
+
+var _Game2 = _interopRequireDefault(_Game);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26182,6 +26186,15 @@ var App = function (_Component) {
               { href: '/panoramas' },
               'Panoramas'
             )
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              'a',
+              { href: '/game' },
+              'Game'
+            )
           )
         ),
         _react2.default.createElement(
@@ -26189,7 +26202,8 @@ var App = function (_Component) {
           { history: _reactRouter.browserHistory },
           _react2.default.createElement(_reactRouter.Route, { path: '/', component: _boomerangCollection2.default }),
           _react2.default.createElement(_reactRouter.Route, { path: '/boomerangs', component: _boomerangCollection2.default }),
-          _react2.default.createElement(_reactRouter.Route, { path: '/panoramas', component: _panoramaCollection2.default })
+          _react2.default.createElement(_reactRouter.Route, { path: '/panoramas', component: _panoramaCollection2.default }),
+          _react2.default.createElement(_reactRouter.Route, { path: '/game', component: _Game2.default })
         )
       );
     }
@@ -26200,7 +26214,7 @@ var App = function (_Component) {
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('react-container'));
 
-},{"./components/boomerangCollection":244,"./components/panoramaCollection":246,"react":239,"react-dom":54,"react-router":207}],243:[function(require,module,exports){
+},{"./components/Game":244,"./components/boomerangCollection":246,"./components/panoramaCollection":248,"react":239,"react-dom":54,"react-router":207}],243:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -26250,6 +26264,135 @@ var Boomerang = function (_Component) {
 exports.default = Boomerang;
 
 },{"react":239}],244:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Plane = require('./Plane');
+
+var _Plane2 = _interopRequireDefault(_Plane);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var sceneStyles = {
+	position: 'relative',
+	overflow: 'hidden',
+	width: '500px',
+	height: '500px',
+	backgroundColor: 'gray',
+	border: '1px solid black'
+};
+
+var Game = function (_Component) {
+	_inherits(Game, _Component);
+
+	function Game(props) {
+		_classCallCheck(this, Game);
+
+		var _this = _possibleConstructorReturn(this, (Game.__proto__ || Object.getPrototypeOf(Game)).call(this, props));
+
+		_this.state = {
+			resources: []
+		};
+		_this.handleClick = _this.handleClick.bind(_this);
+		_this.handleKey = _this.handleKey.bind(_this);
+		return _this;
+	}
+
+	_createClass(Game, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				{ className: 'Game', style: sceneStyles, onClick: this.handleClick, onKeyUp: this.handleKey },
+				_react2.default.createElement(_Plane2.default, null)
+			);
+		}
+	}, {
+		key: 'handleClick',
+		value: function handleClick(e) {
+			console.log('click');
+		}
+	}, {
+		key: 'handleKey',
+		value: function handleKey(e) {
+			console.log('key');
+		}
+	}]);
+
+	return Game;
+}(_react.Component);
+
+exports.default = Game;
+
+},{"./Plane":245,"react":239}],245:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var planeStyles = {
+	position: 'absolute',
+	width: '50px',
+	height: '50px',
+	backgroundColor: 'red',
+	bottom: '2%',
+	right: 0,
+	left: 0,
+	margin: 'auto'
+};
+
+var Plane = function (_Component) {
+	_inherits(Plane, _Component);
+
+	function Plane() {
+		_classCallCheck(this, Plane);
+
+		return _possibleConstructorReturn(this, (Plane.__proto__ || Object.getPrototypeOf(Plane)).apply(this, arguments));
+	}
+
+	_createClass(Plane, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement('div', { className: 'Plane', style: planeStyles });
+		}
+	}]);
+
+	return Plane;
+}(_react.Component);
+
+exports.default = Plane;
+
+},{"react":239}],246:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -26332,7 +26475,7 @@ var boomerangCollection = function (_Component) {
 
 exports.default = boomerangCollection;
 
-},{"../modules/httpGet":247,"./Boomerang":243,"react":239}],245:[function(require,module,exports){
+},{"../modules/httpGet":249,"./Boomerang":243,"react":239}],247:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -26378,7 +26521,7 @@ var CloudImage = function (_Component) {
 
 exports.default = CloudImage;
 
-},{"react":239}],246:[function(require,module,exports){
+},{"react":239}],248:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -26462,7 +26605,7 @@ var panoramaCollection = function (_Component) {
 
 exports.default = panoramaCollection;
 
-},{"../modules/httpGet":247,"./cloudImage":245,"react":239}],247:[function(require,module,exports){
+},{"../modules/httpGet":249,"./cloudImage":247,"react":239}],249:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
