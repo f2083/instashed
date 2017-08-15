@@ -26306,31 +26306,51 @@ var Game = function (_Component) {
 		var _this = _possibleConstructorReturn(this, (Game.__proto__ || Object.getPrototypeOf(Game)).call(this, props));
 
 		_this.state = {
-			resources: []
+			planeStyles: {
+				position: 'absolute',
+				width: '50px',
+				height: '50px',
+				backgroundColor: 'red',
+				bottom: '2%',
+				left: '49%',
+				margin: 'auto'
+			}
 		};
-		_this.handleClick = _this.handleClick.bind(_this);
 		_this.handleKey = _this.handleKey.bind(_this);
 		return _this;
 	}
 
 	_createClass(Game, [{
+		key: 'componentWillMount',
+		value: function componentWillMount() {
+			document.body.addEventListener('keydown', this.handleKey.bind(this));
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ className: 'Game', style: sceneStyles, onClick: this.handleClick, onKeyUp: this.handleKey },
-				_react2.default.createElement(_Plane2.default, null)
+				{ className: 'Game', style: sceneStyles },
+				_react2.default.createElement(_Plane2.default, { css: this.state.planeStyles })
 			);
 		}
 	}, {
-		key: 'handleClick',
-		value: function handleClick(e) {
-			console.log('click');
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			document.body.addEventListener('keydown', this.handleKey.bind(this));
 		}
 	}, {
 		key: 'handleKey',
 		value: function handleKey(e) {
 			console.log('key');
+			if (e.keyCode === 37) {
+				var newleft = parseInt(this.state.planeStyles.left) - 1 + '%';
+				this.setState({ planeStyles: Object.assign(this.state.planeStyles, { left: newleft }) });
+			}
+			if (e.keyCode === 39) {
+				var _newleft = parseInt(this.state.planeStyles.left) + 1 + '%';
+				this.setState({ planeStyles: Object.assign(this.state.planeStyles, { left: _newleft }) });
+			}
 		}
 	}]);
 
@@ -26360,17 +26380,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var planeStyles = {
-	position: 'absolute',
-	width: '50px',
-	height: '50px',
-	backgroundColor: 'red',
-	bottom: '2%',
-	right: 0,
-	left: 0,
-	margin: 'auto'
-};
-
 var Plane = function (_Component) {
 	_inherits(Plane, _Component);
 
@@ -26383,7 +26392,7 @@ var Plane = function (_Component) {
 	_createClass(Plane, [{
 		key: 'render',
 		value: function render() {
-			return _react2.default.createElement('div', { className: 'Plane', style: planeStyles });
+			return _react2.default.createElement('div', { className: 'Plane', style: this.props.css });
 		}
 	}]);
 
