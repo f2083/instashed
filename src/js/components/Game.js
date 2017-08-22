@@ -1,5 +1,12 @@
 import React, { Component } from 'react'
-import Plane from './Plane';
+
+import { combineReducers } from 'redux'
+import { createStore} from 'redux'
+import { Provider } from 'react-redux'
+
+import slideGame from '../reducers/reducers'
+import * as actions from '../actions/actions'
+import Tile from './Tile'
 
 const sceneStyles = {
 	position: 'relative',
@@ -10,49 +17,42 @@ const sceneStyles = {
 	border: '1px solid black'
 }
 
+let store = createStore(slideGame)
+
 class Game extends Component{
 	constructor(props) {
 	    super(props)
 	    this.state = { 
-	    	planeStyles: {
-				position: 'absolute',
-				width: '50px',
-				height: '50px',
+	    	tileStyles: {
+				width: '32%',
+				height: '24%',
 				backgroundColor: 'red',
-				bottom: '2%',
-				left: '49%',
-				margin: 'auto'
-			}
+				display: 'inline-block',
+				border: '1px solid black'
+			},
+			tiles: [
+				[],[],[],[],[],[],[],[],[],[],[],[]
+			]
 	    }
-	    this.handleKey = this.handleKey.bind(this)
-	}
-	
-	componentWillMount(){
-		document.body.addEventListener('keydown',this.handleKey.bind(this))
+	    this.handleClick = this.handleClick.bind(this)
 	}
 	
 	render(){
 		return (
-			<div className='Game' style={sceneStyles}>
-				<Plane css={this.state.planeStyles}/>
-			</div>		
+			<Provider store={store}>
+				<div className='Game' style={sceneStyles}>
+					{this.state.tiles.map((item, key)=> {
+						return <Tile css={this.state.tileStyles} key={key} handleClick={this.handleClick}/>
+					})}				
+				</div>
+			</Provider>		
 		)
 	}
 	
-	componentWillUnmount(){
-		document.body.addEventListener('keydown',this.handleKey.bind(this))
-	}
-	
-	handleKey(e){
-		console.log('key')
-		if(e.keyCode === 37){
-			let newleft = parseInt(this.state.planeStyles.left) - 1 + '%'
-			this.setState({ planeStyles: Object.assign(this.state.planeStyles, {left: newleft}) })
-		}
-		if(e.keyCode === 39){
-			let newleft = parseInt(this.state.planeStyles.left) + 1 + '%'
-			this.setState({ planeStyles: Object.assign(this.state.planeStyles, {left: newleft}) })
-		}
+	handleClick(e){
+		console.log('toggleSide 1')
+		e.target.style.background = 'blue'
+		store.dispatch(actions.toggleSide(1))
 	}
 }
 

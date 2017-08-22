@@ -15,7 +15,9 @@
     "grunt": "^1.0.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-router": "^3.0.2"
+    "react-redux": "^5.0.6",
+    "react-router": "^3.0.2",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "babel-plugin-transform-react-jsx": ">= 6.3",
@@ -33,20 +35,23 @@
     ]
   },
   "eslintConfig": {
-		"env": {
-      	"browser": true
-		},
-		"parserOptions": {
-      	"ecmaVersion": 6,
-        	"sourceType": "module",
-        	"ecmaFeatures": {
-            "jsx": true
-        	}
-		},
-		"rules": {
-        "eqeqeq": "error",
-        "curly": "error",
-        "quotes": ["error", "single"]
-    	}
+    "env": {
+      "browser": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rules": {
+      "eqeqeq": "error",
+      "curly": "error",
+      "quotes": [
+        "error",
+        "single"
+      ]
     }
+  }
 }

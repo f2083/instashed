@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import boomerangCollection from './components/boomerangCollection'
 import panoramaCollection from './components/panoramaCollection'
