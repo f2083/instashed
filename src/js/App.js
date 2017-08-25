@@ -5,6 +5,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import boomerangCollection from './components/boomerangCollection'
 import panoramaCollection from './components/panoramaCollection'
 import Game from './components/Game'
+import MemoGame from './components/MemoGame'
 
 
 class App extends Component {
@@ -20,7 +21,7 @@ class App extends Component {
           <Route path='/' component={boomerangCollection}></Route>
           <Route path='/boomerangs' component={boomerangCollection}></Route> 
           <Route path='/panoramas' component={panoramaCollection}></Route>
-          <Route path='/game' component={Game}></Route>      
+          <Route path='/game' component={MemoGame}></Route>      
         </Router>
       </div>
     )

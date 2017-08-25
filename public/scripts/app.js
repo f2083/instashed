@@ -28257,6 +28257,10 @@ var _Game = require('./components/Game');
 
 var _Game2 = _interopRequireDefault(_Game);
 
+var _MemoGame = require('./components/MemoGame');
+
+var _MemoGame2 = _interopRequireDefault(_MemoGame);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28317,7 +28321,7 @@ var App = function (_Component) {
           _react2.default.createElement(_reactRouter.Route, { path: '/', component: _boomerangCollection2.default }),
           _react2.default.createElement(_reactRouter.Route, { path: '/boomerangs', component: _boomerangCollection2.default }),
           _react2.default.createElement(_reactRouter.Route, { path: '/panoramas', component: _panoramaCollection2.default }),
-          _react2.default.createElement(_reactRouter.Route, { path: '/game', component: _Game2.default })
+          _react2.default.createElement(_reactRouter.Route, { path: '/game', component: _MemoGame2.default })
         )
       );
     }
@@ -28328,7 +28332,7 @@ var App = function (_Component) {
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('react-container'));
 
-},{"./components/Game":291,"./components/boomerangCollection":293,"./components/panoramaCollection":295,"react":265,"react-dom":54,"react-router":233}],289:[function(require,module,exports){
+},{"./components/Game":291,"./components/MemoGame":292,"./components/boomerangCollection":294,"./components/panoramaCollection":296,"react":265,"react-dom":54,"react-router":233}],289:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28422,13 +28426,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _redux = require('redux');
-
 var _reactRedux = require('react-redux');
-
-var _reducers = require('../reducers/reducers');
-
-var _reducers2 = _interopRequireDefault(_reducers);
 
 var _actions = require('../actions/actions');
 
@@ -28457,7 +28455,9 @@ var sceneStyles = {
 	border: '1px solid black'
 };
 
-var store = (0, _redux.createStore)(_reducers2.default);
+function mapStateToProps(state) {
+	return state;
+}
 
 var Game = function (_Component) {
 	_inherits(Game, _Component);
@@ -28487,32 +28487,89 @@ var Game = function (_Component) {
 			var _this2 = this;
 
 			return _react2.default.createElement(
-				_reactRedux.Provider,
-				{ store: store },
-				_react2.default.createElement(
-					'div',
-					{ className: 'Game', style: sceneStyles },
-					this.state.tiles.map(function (item, key) {
-						return _react2.default.createElement(_Tile2.default, { css: _this2.state.tileStyles, key: key, handleClick: _this2.handleClick });
-					})
-				)
+				'div',
+				{ className: 'Game', style: sceneStyles },
+				this.state.tiles.map(function (item, key) {
+					return _react2.default.createElement(_Tile2.default, { css: _this2.state.tileStyles, key: key, handleClick: _this2.handleClick });
+				})
 			);
 		}
 	}, {
 		key: 'handleClick',
 		value: function handleClick(e) {
 			console.log('toggleSide 1');
+			console.log(this.props);
 			e.target.style.background = 'blue';
-			store.dispatch(actions.toggleSide(1));
+			this.props.dispatch(actions.toggleSide(1));
 		}
 	}]);
 
 	return Game;
 }(_react.Component);
 
-exports.default = Game;
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Game);
 
-},{"../actions/actions":289,"../reducers/reducers":297,"./Tile":292,"react":265,"react-redux":190,"redux":271}],292:[function(require,module,exports){
+},{"../actions/actions":289,"./Tile":293,"react":265,"react-redux":190}],292:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _redux = require('redux');
+
+var _reactRedux = require('react-redux');
+
+var _Game = require('./Game');
+
+var _Game2 = _interopRequireDefault(_Game);
+
+var _reducers = require('../reducers/reducers');
+
+var _reducers2 = _interopRequireDefault(_reducers);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var store = (0, _redux.createStore)(_reducers2.default);
+
+var MemoGame = function (_Component) {
+	_inherits(MemoGame, _Component);
+
+	function MemoGame() {
+		_classCallCheck(this, MemoGame);
+
+		return _possibleConstructorReturn(this, (MemoGame.__proto__ || Object.getPrototypeOf(MemoGame)).apply(this, arguments));
+	}
+
+	_createClass(MemoGame, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				_reactRedux.Provider,
+				{ store: store },
+				_react2.default.createElement(_Game2.default, null)
+			);
+		}
+	}]);
+
+	return MemoGame;
+}(_react.Component);
+
+exports.default = MemoGame;
+
+},{"../reducers/reducers":298,"./Game":291,"react":265,"react-redux":190,"redux":271}],293:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28554,7 +28611,7 @@ var Tile = function (_Component) {
 
 exports.default = Tile;
 
-},{"react":265}],293:[function(require,module,exports){
+},{"react":265}],294:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28637,7 +28694,7 @@ var boomerangCollection = function (_Component) {
 
 exports.default = boomerangCollection;
 
-},{"../modules/httpGet":296,"./Boomerang":290,"react":265}],294:[function(require,module,exports){
+},{"../modules/httpGet":297,"./Boomerang":290,"react":265}],295:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28683,7 +28740,7 @@ var CloudImage = function (_Component) {
 
 exports.default = CloudImage;
 
-},{"react":265}],295:[function(require,module,exports){
+},{"react":265}],296:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28767,7 +28824,7 @@ var panoramaCollection = function (_Component) {
 
 exports.default = panoramaCollection;
 
-},{"../modules/httpGet":296,"./cloudImage":294,"react":265}],296:[function(require,module,exports){
+},{"../modules/httpGet":297,"./cloudImage":295,"react":265}],297:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28796,7 +28853,7 @@ function httpGet(url) {
   return new Promise(sendRequest);
 }
 
-},{}],297:[function(require,module,exports){
+},{}],298:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

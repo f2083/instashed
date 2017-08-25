@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
-
-import { combineReducers } from 'redux'
-import { createStore} from 'redux'
-import { Provider } from 'react-redux'
-
-import slideGame from '../reducers/reducers'
+import { connect } from 'react-redux'
 import * as actions from '../actions/actions'
 import Tile from './Tile'
 
@@ -17,7 +12,9 @@ const sceneStyles = {
 	border: '1px solid black'
 }
 
-let store = createStore(slideGame)
+function mapStateToProps (state) {
+  return state
+}
 
 class Game extends Component{
 	constructor(props) {
@@ -39,21 +36,20 @@ class Game extends Component{
 	
 	render(){
 		return (
-			<Provider store={store}>
 				<div className='Game' style={sceneStyles}>
 					{this.state.tiles.map((item, key)=> {
 						return <Tile css={this.state.tileStyles} key={key} handleClick={this.handleClick}/>
 					})}				
-				</div>
-			</Provider>		
+				</div>	
 		)
 	}
 	
 	handleClick(e){
 		console.log('toggleSide 1')
+		console.log(this.props)
 		e.target.style.background = 'blue'
-		store.dispatch(actions.toggleSide(1))
+		this.props.dispatch(actions.toggleSide(1))
 	}
 }
 
-export default Game
+export default connect(mapStateToProps)(Game)
