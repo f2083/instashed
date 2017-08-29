@@ -28489,8 +28489,8 @@ var Game = function (_Component) {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'Game', style: sceneStyles },
-				this.state.tiles.map(function (item, key) {
-					return _react2.default.createElement(_Tile2.default, { css: _this2.state.tileStyles, key: key, handleClick: _this2.handleClick });
+				this.props.slideActions.map(function (item, key) {
+					return _react2.default.createElement(_Tile2.default, { css: _this2.state.tileStyles, key: key, index: key, handleClick: _this2.handleClick, val: item.value });
 				})
 			);
 		}
@@ -28498,9 +28498,9 @@ var Game = function (_Component) {
 		key: 'handleClick',
 		value: function handleClick(e) {
 			console.log('toggleSide 1');
-			console.log(this.props);
+			console.log(this);
 			e.target.style.background = 'blue';
-			this.props.dispatch(actions.toggleSide(1));
+			this.props.dispatch(actions.toggleSide(parseInt(e.target.dataset.index, 10)));
 		}
 	}]);
 
@@ -28542,7 +28542,20 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var store = (0, _redux.createStore)(_reducers2.default);
+var initialState = { slideActions: [{ turned: false,
+		value: 1 }, { turned: false,
+		value: 2 }, { turned: false,
+		value: 4 }, { turned: false,
+		value: 3 }, { turned: false,
+		value: 5 }, { turned: false,
+		value: 3 }, { turned: false,
+		value: 6 }, { turned: false,
+		value: 5 }, { turned: false,
+		value: 2 }, { turned: false,
+		value: 6 }, { turned: false,
+		value: 4 }, { turned: false,
+		value: 1 }] };
+var store = (0, _redux.createStore)(_reducers2.default, initialState);
 
 var MemoGame = function (_Component) {
 	_inherits(MemoGame, _Component);
@@ -28602,7 +28615,11 @@ var Tile = function (_Component) {
 	_createClass(Tile, [{
 		key: 'render',
 		value: function render() {
-			return _react2.default.createElement('div', { className: 'Tile', style: this.props.css, onClick: this.props.handleClick });
+			return _react2.default.createElement(
+				'div',
+				{ className: 'Tile', style: this.props.css, onClick: this.props.handleClick, 'data-index': this.props.index },
+				this.props.val
+			);
 		}
 	}]);
 
@@ -28864,8 +28881,6 @@ var _redux = require('redux');
 
 var _actions = require('../actions/actions');
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function slideActions() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
@@ -28873,10 +28888,10 @@ function slideActions() {
   switch (action.type) {
     case _actions.TOGGLE_SIDE:
       console.log('toggleSide received');
-      return [].concat(_toConsumableArray(state), [{
-        index: action.index,
-        completed: false
-      }]);
+      console.log(action);
+      var newState = state;
+      newState[action.index].turned = !state[action.index].turned;
+      return newState;
     case _actions.CHECK_EQUALITY:
       return state.map(function (item, index) {
         if (index === action.index) {

@@ -10,13 +10,10 @@ function slideActions(state = [], action) {
   switch (action.type) {
     case TOGGLE_SIDE:
     	console.log('toggleSide received')
-      return [
-        ...state,
-        {
-          index: action.index,
-          completed: false
-        }
-      ]
+    	console.log(action)
+    	let newState = state
+    	newState[action.index].turned = !state[action.index].turned
+      return newState
     case CHECK_EQUALITY:
       return state.map((item, index) => {
         if (index === action.index) {

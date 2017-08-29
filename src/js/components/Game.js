@@ -37,8 +37,8 @@ class Game extends Component{
 	render(){
 		return (
 				<div className='Game' style={sceneStyles}>
-					{this.state.tiles.map((item, key)=> {
-						return <Tile css={this.state.tileStyles} key={key} handleClick={this.handleClick}/>
+					{this.props.slideActions.map((item, key)=> {
+						return <Tile css={this.state.tileStyles} key={key} index={key} handleClick={this.handleClick} val={item.value} />
 					})}				
 				</div>	
 		)
@@ -46,9 +46,9 @@ class Game extends Component{
 	
 	handleClick(e){
 		console.log('toggleSide 1')
-		console.log(this.props)
+		console.log(this)
 		e.target.style.background = 'blue'
-		this.props.dispatch(actions.toggleSide(1))
+		this.props.dispatch(actions.toggleSide(parseInt(e.target.dataset.index,10)))
 	}
 }
 
