@@ -28430,13 +28430,9 @@ var _reactRedux = require('react-redux');
 
 var _actions = require('../actions/actions');
 
-var actions = _interopRequireWildcard(_actions);
-
 var _Tile = require('./Tile');
 
 var _Tile2 = _interopRequireDefault(_Tile);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28446,18 +28442,20 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var sceneStyles = {
-	position: 'relative',
-	overflow: 'hidden',
-	width: '500px',
-	height: '500px',
-	backgroundColor: 'gray',
-	border: '1px solid black'
-};
-
 function mapStateToProps(state) {
-	return state;
+	console.log(state);
+	return {
+		slideActions: state.slideActions
+	};
 }
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	return {
+		toggleSide: function toggleSide() {
+			dispatch((0, _actions.toggleSide)());
+		}
+	};
+};
 
 var Game = function (_Component) {
 	_inherits(Game, _Component);
@@ -28467,16 +28465,9 @@ var Game = function (_Component) {
 
 		var _this = _possibleConstructorReturn(this, (Game.__proto__ || Object.getPrototypeOf(Game)).call(this, props));
 
-		_this.state = {
-			tileStyles: {
-				width: '32%',
-				height: '24%',
-				backgroundColor: 'red',
-				display: 'inline-block',
-				border: '1px solid black'
-			},
-			tiles: [[], [], [], [], [], [], [], [], [], [], [], []]
-		};
+		console.log(arguments);
+		console.log(props);
+		_this.state = props;
 		_this.handleClick = _this.handleClick.bind(_this);
 		return _this;
 	}
@@ -28486,11 +28477,12 @@ var Game = function (_Component) {
 		value: function render() {
 			var _this2 = this;
 
+			console.log('game render');
 			return _react2.default.createElement(
 				'div',
-				{ className: 'Game', style: sceneStyles },
-				this.props.slideActions.map(function (item, key) {
-					return _react2.default.createElement(_Tile2.default, { css: _this2.state.tileStyles, key: key, index: key, handleClick: _this2.handleClick, val: item.value });
+				{ className: 'Game' },
+				this.state.slideActions.map(function (item, key) {
+					return _react2.default.createElement(_Tile2.default, { key: key, index: key, handleClick: _this2.handleClick, val: item.value, turned: item.turned });
 				})
 			);
 		}
@@ -28499,8 +28491,14 @@ var Game = function (_Component) {
 		value: function handleClick(e) {
 			console.log('toggleSide 1');
 			console.log(this);
-			e.target.style.background = 'blue';
-			this.props.dispatch(actions.toggleSide(parseInt(e.target.dataset.index, 10)));
+			e.target.style.background = 'green';
+			this.state.dispatch((0, _actions.toggleSide)(parseInt(e.target.dataset.index, 10)));
+		}
+	}, {
+		key: 'shouldComponentUpdate',
+		value: function shouldComponentUpdate() {
+			console.log('game shouldComponentUpdate');
+			return true;
 		}
 	}]);
 
@@ -28556,6 +28554,10 @@ var initialState = { slideActions: [{ turned: false,
 		value: 4 }, { turned: false,
 		value: 1 }] };
 var store = (0, _redux.createStore)(_reducers2.default, initialState);
+
+store.subscribe(function () {
+	return console.log(store.getState());
+});
 
 var MemoGame = function (_Component) {
 	_inherits(MemoGame, _Component);
@@ -28615,9 +28617,10 @@ var Tile = function (_Component) {
 	_createClass(Tile, [{
 		key: 'render',
 		value: function render() {
+			console.log('render');
 			return _react2.default.createElement(
 				'div',
-				{ className: 'Tile', style: this.props.css, onClick: this.props.handleClick, 'data-index': this.props.index },
+				{ onClick: this.props.handleClick, 'data-index': this.props.index, className: 'Tile ' + this.props.turned },
 				this.props.val
 			);
 		}
@@ -28888,9 +28891,18 @@ function slideActions() {
   switch (action.type) {
     case _actions.TOGGLE_SIDE:
       console.log('toggleSide received');
-      console.log(action);
-      var newState = state;
-      newState[action.index].turned = !state[action.index].turned;
+      console.log(state);
+      /*let newState = state
+      newState[action.index].turned = !state[action.index].turned
+       return newState*/
+      var newState = state.map(function (item, index) {
+        if (index === action.index) {
+          return Object.assign({}, item, {
+            turned: !item.turned
+          });
+        }
+        return item;
+      });
       return newState;
     case _actions.CHECK_EQUALITY:
       return state.map(function (item, index) {

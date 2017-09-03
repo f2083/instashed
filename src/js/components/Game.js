@@ -1,44 +1,38 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import * as actions from '../actions/actions'
+import {toggleSide} from '../actions/actions'
 import Tile from './Tile'
 
-const sceneStyles = {
-	position: 'relative',
-	overflow: 'hidden',
-	width: '500px',
-	height: '500px',
-	backgroundColor: 'gray',
-	border: '1px solid black'
+function mapStateToProps (state) {
+	console.log(state)
+  return {
+  		slideActions: state.slideActions
+  }
 }
 
-function mapStateToProps (state) {
-  return state
-}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        toggleSide: () => {
+            dispatch(toggleSide());
+        }
+    }
+};
 
 class Game extends Component{
 	constructor(props) {
-	    super(props)
-	    this.state = { 
-	    	tileStyles: {
-				width: '32%',
-				height: '24%',
-				backgroundColor: 'red',
-				display: 'inline-block',
-				border: '1px solid black'
-			},
-			tiles: [
-				[],[],[],[],[],[],[],[],[],[],[],[]
-			]
-	    }
+	    super(props)	
+	    console.log(arguments)   
+	    console.log(props)
+	    this.state = props
 	    this.handleClick = this.handleClick.bind(this)
 	}
 	
 	render(){
+		console.log('game render')
 		return (
-				<div className='Game' style={sceneStyles}>
-					{this.props.slideActions.map((item, key)=> {
-						return <Tile css={this.state.tileStyles} key={key} index={key} handleClick={this.handleClick} val={item.value} />
+				<div className='Game'>
+					{this.state.slideActions.map((item, key)=> {
+						return <Tile key={key} index={key} handleClick={this.handleClick} val={item.value} turned={item.turned}/>
 					})}				
 				</div>	
 		)
@@ -47,8 +41,13 @@ class Game extends Component{
 	handleClick(e){
 		console.log('toggleSide 1')
 		console.log(this)
-		e.target.style.background = 'blue'
-		this.props.dispatch(actions.toggleSide(parseInt(e.target.dataset.index,10)))
+		e.target.style.background = 'green'
+		this.state.dispatch(toggleSide(parseInt(e.target.dataset.index,10)))
+	}
+	
+	shouldComponentUpdate(){
+		console.log('game shouldComponentUpdate')
+		return true	
 	}
 }
 

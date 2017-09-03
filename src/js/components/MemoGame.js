@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import Game from './Game'
 import slideGame from '../reducers/reducers'
 
-const initialState = {slideActions:[
+var initialState = {slideActions:[
 	{turned: false,
 		value: 1	},
 	{turned: false,
@@ -33,13 +33,15 @@ const initialState = {slideActions:[
 	{turned: false,
 		value: 1	},
 ]}
-let store = createStore(slideGame, initialState)
+const store = createStore(slideGame, initialState)
 
-class MemoGame extends Component{
+store.subscribe(()=>console.log(store.getState()))
+
+class MemoGame extends Component{	
 	render () {
 		return (
 			<Provider store={store}>
-				<Game/>
+				<Game />
 			</Provider>		
 		)
 	}

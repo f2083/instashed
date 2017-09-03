@@ -469,3 +469,20 @@ template {
     overflow: hidden;
     margin: 15px;
 }
+
+.Game{
+	position: relative;
+    overflow: hidden;
+    width: 500px;
+    height: 500px;
+    background-color: gray;
+    border: 1px solid black;
+}
+
+.Tile{
+	width: 32%;
+    height: 24%;
+    background: red;
+    display: inline-block;
+    border: 1px solid black;
+}
