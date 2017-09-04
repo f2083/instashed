@@ -20,9 +20,7 @@ const mapDispatchToProps = (dispatch) => {
 
 class Game extends Component{
 	constructor(props) {
-	    super(props)	
-	    console.log(arguments)   
-	    console.log(props)
+	    super(props)
 	    this.state = props
 	    this.handleClick = this.handleClick.bind(this)
 	}
@@ -31,23 +29,23 @@ class Game extends Component{
 		console.log('game render')
 		return (
 				<div className='Game'>
-					{this.state.slideActions.map((item, key)=> {
-						return <Tile key={key} index={key} handleClick={this.handleClick} val={item.value} turned={item.turned}/>
+					{this.props.slideActions.map((item, key)=> {
+						return <Tile key={key} index={key} handleClick={this.handleClick}  turned={item.turned}>
+						{item.turned?item.value:''}
+						</Tile>
 					})}				
 				</div>	
 		)
 	}
 	
 	handleClick(e){
-		console.log('toggleSide 1')
-		console.log(this)
-		e.target.style.background = 'green'
 		this.state.dispatch(toggleSide(parseInt(e.target.dataset.index,10)))
+		this.checkEquality()
 	}
 	
-	shouldComponentUpdate(){
-		console.log('game shouldComponentUpdate')
-		return true	
+	checkEquality(){
+		this.propsmap
+		return false
 	}
 }
 

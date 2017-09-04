@@ -481,8 +481,13 @@ template {
 
 .Tile{
 	width: 32%;
-    height: 24%;
-    background: red;
-    display: inline-block;
-    border: 1px solid black;
+	height: 24%;
+	background: blue;
+	display: inline-block;
+	border: 1px solid black;
+	overflow: hidden;
+}
+
+.Tile.turned{
+  background: red;
 }

@@ -28465,8 +28465,6 @@ var Game = function (_Component) {
 
 		var _this = _possibleConstructorReturn(this, (Game.__proto__ || Object.getPrototypeOf(Game)).call(this, props));
 
-		console.log(arguments);
-		console.log(props);
 		_this.state = props;
 		_this.handleClick = _this.handleClick.bind(_this);
 		return _this;
@@ -28481,24 +28479,26 @@ var Game = function (_Component) {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'Game' },
-				this.state.slideActions.map(function (item, key) {
-					return _react2.default.createElement(_Tile2.default, { key: key, index: key, handleClick: _this2.handleClick, val: item.value, turned: item.turned });
+				this.props.slideActions.map(function (item, key) {
+					return _react2.default.createElement(
+						_Tile2.default,
+						{ key: key, index: key, handleClick: _this2.handleClick, turned: item.turned },
+						item.turned ? item.value : ''
+					);
 				})
 			);
 		}
 	}, {
 		key: 'handleClick',
 		value: function handleClick(e) {
-			console.log('toggleSide 1');
-			console.log(this);
-			e.target.style.background = 'green';
 			this.state.dispatch((0, _actions.toggleSide)(parseInt(e.target.dataset.index, 10)));
+			this.checkEquality();
 		}
 	}, {
-		key: 'shouldComponentUpdate',
-		value: function shouldComponentUpdate() {
-			console.log('game shouldComponentUpdate');
-			return true;
+		key: 'checkEquality',
+		value: function checkEquality() {
+			this.propsmap;
+			return false;
 		}
 	}]);
 
@@ -28617,11 +28617,12 @@ var Tile = function (_Component) {
 	_createClass(Tile, [{
 		key: 'render',
 		value: function render() {
+			var turned = this.props.turned ? 'turned' : '';
 			console.log('render');
 			return _react2.default.createElement(
 				'div',
-				{ onClick: this.props.handleClick, 'data-index': this.props.index, className: 'Tile ' + this.props.turned },
-				this.props.val
+				{ onClick: this.props.handleClick, 'data-index': this.props.index, className: 'Tile ' + turned },
+				this.props.children
 			);
 		}
 	}]);
