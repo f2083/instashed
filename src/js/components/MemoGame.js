@@ -35,7 +35,7 @@ var initialState = {slideActions:[
 ]}
 const store = createStore(slideGame, initialState)
 
-store.subscribe(()=>console.log(store.getState()))
+store.subscribe(()=>console.log(arguments))
 
 class MemoGame extends Component{	
 	render () {

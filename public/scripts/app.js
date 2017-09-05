@@ -28341,9 +28341,11 @@ Object.defineProperty(exports, "__esModule", {
 exports.toggleSide = toggleSide;
 exports.fixSide = fixSide;
 exports.checkEquality = checkEquality;
+exports.hideAll = hideAll;
 var TOGGLE_SIDE = exports.TOGGLE_SIDE = 'TOGGLE_SIDE';
 var CHECK_EQUALITY = exports.CHECK_EQUALITY = 'CHECK_EQUALITY';
 var FIX_SIDE = exports.FIX_SIDE = 'FIX_SIDE';
+var HIDE_ALL = exports.HIDE_ALL = 'HIDE_ALL';
 
 var VisibilityFilters = exports.VisibilityFilters = {
   SHOW_ALL: 'SHOW_ALL',
@@ -28362,6 +28364,10 @@ function fixSide(index) {
 
 function checkEquality(filter) {
   return { type: CHECK_EQUALITY, filter: filter };
+}
+
+function hideAll(filter) {
+  return { type: HIDE_ALL, filter: filter };
 }
 
 },{}],290:[function(require,module,exports){
@@ -28453,6 +28459,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	return {
 		toggleSide: function toggleSide() {
 			dispatch((0, _actions.toggleSide)());
+		},
+		hideAll: function hideAll() {
+			dispatch((0, _actions.hideAll)());
 		}
 	};
 };
@@ -28471,6 +28480,11 @@ var Game = function (_Component) {
 	}
 
 	_createClass(Game, [{
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate() {
+			this.checkEquality();
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var _this2 = this;
@@ -28491,13 +28505,25 @@ var Game = function (_Component) {
 	}, {
 		key: 'handleClick',
 		value: function handleClick(e) {
+			console.log('dispatch');
 			this.state.dispatch((0, _actions.toggleSide)(parseInt(e.target.dataset.index, 10)));
-			this.checkEquality();
 		}
 	}, {
 		key: 'checkEquality',
 		value: function checkEquality() {
-			this.propsmap;
+			var turnedTiles = this.props.slideActions.filter(function (item) {
+				return item.turned;
+			});
+			if (turnedTiles.length && turnedTiles.length % 2 === 0) {
+				if (turnedTiles[0].value === turnedTiles[1].value) {
+					alert('win!}');
+					return turnedTiles[0].value === turnedTiles[1].value;
+				}
+				setTimeout(function () {
+					this.state.dispatch((0, _actions.hideAll)(1));
+				}.bind(this), 1000);
+			}
+
 			return false;
 		}
 	}]);
@@ -28515,6 +28541,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _arguments = arguments;
 
 var _react = require('react');
 
@@ -28556,7 +28584,7 @@ var initialState = { slideActions: [{ turned: false,
 var store = (0, _redux.createStore)(_reducers2.default, initialState);
 
 store.subscribe(function () {
-	return console.log(store.getState());
+	return console.log(_arguments);
 });
 
 var MemoGame = function (_Component) {
@@ -28892,12 +28920,18 @@ function slideActions() {
   switch (action.type) {
     case _actions.TOGGLE_SIDE:
       console.log('toggleSide received');
-      console.log(state);
-      /*let newState = state
-      newState[action.index].turned = !state[action.index].turned
-       return newState*/
       var newState = state.map(function (item, index) {
         if (index === action.index) {
+          return Object.assign({}, item, {
+            turned: !item.turned
+          });
+        }
+        return item;
+      });
+      return newState;
+    case _actions.HIDE_ALL:
+      var newState = state.map(function (item, index) {
+        if (item.turned) {
           return Object.assign({}, item, {
             turned: !item.turned
           });
