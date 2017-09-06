@@ -1,6 +1,6 @@
 export const TOGGLE_SIDE = 'TOGGLE_SIDE'
 export const CHECK_EQUALITY = 'CHECK_EQUALITY'
-export const FIX_SIDE = 'FIX_SIDE'
+export const FIX_SLIDE = 'FIX_SLIDE'
 export const HIDE_ALL = 'HIDE_ALL'
 
 export const VisibilityFilters = {
@@ -14,8 +14,8 @@ export function toggleSide(index) {
   return { type: TOGGLE_SIDE, index }
 }
 
-export function fixSide(index) {
-  return { type: FIX_SIDE, index }
+export function fixSlide(index) {
+  return { type: FIX_SLIDE, index }
 }
 
 export function checkEquality(filter) {

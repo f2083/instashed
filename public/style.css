@@ -488,6 +488,6 @@ template {
 	overflow: hidden;
 }
 
-.Tile.turned{
+.Tile.turned, .Tile.fixed{
   background: red;
 }
