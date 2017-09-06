@@ -2,16 +2,18 @@ import { combineReducers } from 'redux'
 import {
   TOGGLE_SIDE,
   CHECK_EQUALITY,
-  FIX_SIDE,
+  FIX_SLIDE,
   HIDE_ALL,
   VisibilityFilters
 } from '../actions/actions'
+
+var newState
 
 function slideActions(state = [], action) {
   switch (action.type) {
     case TOGGLE_SIDE:
     	console.log('toggleSide received')
-      var newState = state.map(function(item, index){
+      newState = state.map(function(item, index){
         if (index === action.index) {
           return Object.assign({}, item, {
             turned: !item.turned
@@ -21,7 +23,7 @@ function slideActions(state = [], action) {
       })
       return newState
     case HIDE_ALL:
-    	var newState = state.map(function(item, index){
+    	newState = state.map(function(item, index){
         if (item.turned) {
           return Object.assign({}, item, {
             turned: !item.turned
@@ -30,15 +32,16 @@ function slideActions(state = [], action) {
         return item
       })
       return newState
-    case CHECK_EQUALITY:
-      return state.map((item, index) => {
+    case FIX_SLIDE:
+      newState = state.map(function(item, index){
         if (index === action.index) {
           return Object.assign({}, item, {
-            completed: !item.completed
+            fixed: true
           })
         }
-        return todo
+        return item
       })
+      return newState
     default:
       return state
   }

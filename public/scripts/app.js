@@ -28339,12 +28339,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.toggleSide = toggleSide;
-exports.fixSide = fixSide;
+exports.fixSlide = fixSlide;
 exports.checkEquality = checkEquality;
 exports.hideAll = hideAll;
 var TOGGLE_SIDE = exports.TOGGLE_SIDE = 'TOGGLE_SIDE';
 var CHECK_EQUALITY = exports.CHECK_EQUALITY = 'CHECK_EQUALITY';
-var FIX_SIDE = exports.FIX_SIDE = 'FIX_SIDE';
+var FIX_SLIDE = exports.FIX_SLIDE = 'FIX_SLIDE';
 var HIDE_ALL = exports.HIDE_ALL = 'HIDE_ALL';
 
 var VisibilityFilters = exports.VisibilityFilters = {
@@ -28358,8 +28358,8 @@ function toggleSide(index) {
   return { type: TOGGLE_SIDE, index: index };
 }
 
-function fixSide(index) {
-  return { type: FIX_SIDE, index: index };
+function fixSlide(index) {
+  return { type: FIX_SLIDE, index: index };
 }
 
 function checkEquality(filter) {
@@ -28462,6 +28462,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 		},
 		hideAll: function hideAll() {
 			dispatch((0, _actions.hideAll)());
+		},
+		fixSlide: function fixSlide() {
+			dispatch((0, _actions.hideAll)());
 		}
 	};
 };
@@ -28497,7 +28500,7 @@ var Game = function (_Component) {
 					return _react2.default.createElement(
 						_Tile2.default,
 						{ key: key, index: key, handleClick: _this2.handleClick, turned: item.turned },
-						item.turned ? item.value : ''
+						item.turned && !item.fixed ? item.value : ''
 					);
 				})
 			);
@@ -28516,7 +28519,6 @@ var Game = function (_Component) {
 			});
 			if (turnedTiles.length && turnedTiles.length % 2 === 0) {
 				if (turnedTiles[0].value === turnedTiles[1].value) {
-					alert('win!}');
 					return turnedTiles[0].value === turnedTiles[1].value;
 				}
 				setTimeout(function () {
@@ -28541,8 +28543,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _arguments = arguments;
 
 var _react = require('react');
 
@@ -28569,23 +28569,31 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var initialState = { slideActions: [{ turned: false,
+		fixed: false,
 		value: 1 }, { turned: false,
+		fixed: false,
 		value: 2 }, { turned: false,
+		fixed: false,
 		value: 4 }, { turned: false,
+		fixed: false,
 		value: 3 }, { turned: false,
+		fixed: false,
 		value: 5 }, { turned: false,
+		fixed: false,
 		value: 3 }, { turned: false,
+		fixed: false,
 		value: 6 }, { turned: false,
+		fixed: false,
 		value: 5 }, { turned: false,
+		fixed: false,
 		value: 2 }, { turned: false,
+		fixed: false,
 		value: 6 }, { turned: false,
+		fixed: false,
 		value: 4 }, { turned: false,
+		fixed: false,
 		value: 1 }] };
 var store = (0, _redux.createStore)(_reducers2.default, initialState);
-
-store.subscribe(function () {
-	return console.log(_arguments);
-});
 
 var MemoGame = function (_Component) {
 	_inherits(MemoGame, _Component);
@@ -28913,6 +28921,8 @@ var _redux = require('redux');
 
 var _actions = require('../actions/actions');
 
+var newState;
+
 function slideActions() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
@@ -28920,7 +28930,7 @@ function slideActions() {
   switch (action.type) {
     case _actions.TOGGLE_SIDE:
       console.log('toggleSide received');
-      var newState = state.map(function (item, index) {
+      newState = state.map(function (item, index) {
         if (index === action.index) {
           return Object.assign({}, item, {
             turned: !item.turned
@@ -28930,7 +28940,7 @@ function slideActions() {
       });
       return newState;
     case _actions.HIDE_ALL:
-      var newState = state.map(function (item, index) {
+      newState = state.map(function (item, index) {
         if (item.turned) {
           return Object.assign({}, item, {
             turned: !item.turned
@@ -28939,15 +28949,16 @@ function slideActions() {
         return item;
       });
       return newState;
-    case _actions.CHECK_EQUALITY:
-      return state.map(function (item, index) {
+    case _actions.FIX_SLIDE:
+      newState = state.map(function (item, index) {
         if (index === action.index) {
           return Object.assign({}, item, {
-            completed: !item.completed
+            fixed: true
           });
         }
-        return todo;
+        return item;
       });
+      return newState;
     default:
       return state;
   }

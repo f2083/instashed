@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {toggleSide, hideAll} from '../actions/actions'
+import {toggleSide, hideAll, fixSlide} from '../actions/actions'
 import Tile from './Tile'
 
 function mapStateToProps (state) {
@@ -17,7 +17,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         hideAll: () => {
 				dispatch(hideAll())        
-        }
+        },
+        fixSlide: () => {
+				dispatch(hideAll())        
+        },
     }
 };
 
@@ -38,7 +41,7 @@ class Game extends Component{
 				<div className='Game'>
 					{this.props.slideActions.map((item, key)=> {
 						return <Tile key={key} index={key} handleClick={this.handleClick}  turned={item.turned}>
-						{item.turned?item.value:''}
+						{item.turned && !item.fixed ? item.value : ''}
 						</Tile>
 					})}				
 				</div>	
@@ -55,8 +58,9 @@ class Game extends Component{
 			return item.turned		
 		})
 		if(turnedTiles.length && turnedTiles.length%2 === 0){
-			if(turnedTiles[0].value === turnedTiles[1].value){alert('win!}')
-			return turnedTiles[0].value === turnedTiles[1].value}
+			if(turnedTiles[0].value === turnedTiles[1].value){		
+				return turnedTiles[0].value === turnedTiles[1].value
+			}
 			setTimeout(
 				function(){this.state.dispatch(hideAll(1))}.bind(this),			
 				1000
