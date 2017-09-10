@@ -67,7 +67,7 @@ class Game extends Component{
 		if(turnedTiles.length && turnedTiles.length === 2){
 			if(turnedTiles[0].value === turnedTiles[1].value){		
 				return this.state.dispatch(fixSlide([turnedTiles[0].index,turnedTiles[1].index]))
-			}	
+			}
 			setTimeout(
 				function(){this.state.dispatch(hideAll(1))}.bind(this),			
 				1000
