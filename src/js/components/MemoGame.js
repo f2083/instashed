@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import Game from './Game'
 import slideGame from '../reducers/reducers'
 
-var initialState = {slideActions:[
+const initialState = {slideActions:[
 	{turned: false,
 		fixed: false,
 		value: 1	},
@@ -45,6 +45,21 @@ var initialState = {slideActions:[
 		fixed: false,
 		value: 1	},
 ]}
+
+function mixState(array) {
+	let newState = []
+	array.forEach( item => {
+		if(Math.round(Math.random()) === 0 ){
+			newState.push(item)
+			return
+		}
+		newState.unshift(item)
+	})
+	return newState
+}
+
+initialState.slideActions = mixState(initialState.slideActions);
+
 const store = createStore(slideGame, initialState)
 
 class MemoGame extends Component{	

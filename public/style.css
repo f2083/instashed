@@ -472,22 +472,45 @@ template {
 
 .Game{
 	position: relative;
-    overflow: hidden;
-    width: 500px;
-    height: 500px;
-    background-color: gray;
-    border: 1px solid black;
+	overflow: hidden;
+	width: 300px;
+	height: 500px;
+	margin: auto;
 }
 
 .Tile{
-	width: 32%;
-	height: 24%;
+	width: 32.9%;
+	height: 24.5%;
 	background: blue;
-	display: inline-block;
+	display: block;
+	float: left;
 	border: 1px solid black;
 	overflow: hidden;
+	margin: -1px;
 }
 
 .Tile.turned, .Tile.fixed{
-  background: red;
+  background-color: white;
+  background-image: url(/img/tattoos.jpg);
+  background-size: 285%;
+}
+
+.turned.pic2, .fixed.pic2{
+  background-position: 51% 0%;
+}
+
+.turned.pic3, .fixed.pic3{
+  background-position: 102% 0%;
+}
+
+.turned.pic4, .fixed.pic4{
+  background-position: 0% 100%;
+}
+
+.turned.pic5, .fixed.pic5{
+  background-position: 50% 102%;
+}
+
+.turned.pic6, .fixed.pic6{
+  background-position: 102% 100%;
 }

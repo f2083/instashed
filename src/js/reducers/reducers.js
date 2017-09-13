@@ -4,7 +4,7 @@ import {
   CHECK_EQUALITY,
   FIX_SLIDE,
   HIDE_ALL,
-  VisibilityFilters
+  NEW_GAME
 } from '../actions/actions'
 
 var newState
@@ -12,7 +12,6 @@ var newState
 function slideActions(state = [], action) {
   switch (action.type) {
     case TOGGLE_SIDE:
-    	console.log('toggleSide received')
       newState = state.map(function(item, index){
         if (index === action.index) {
           return Object.assign({}, item, {
@@ -42,6 +41,18 @@ function slideActions(state = [], action) {
         return item
       })
       return newState
+    case NEW_GAME:
+    	newState = []
+    	state.forEach(item => {
+    		if (Math.round(Math.random()) === 0) {
+    			return newState.push(item)    			
+    		}
+    			newState.unshift(item)   
+    	})	
+    	newState.forEach(item => {
+    		item.turned = item.fixed = false
+    	})
+    	return newState
     default:
       return state
   }

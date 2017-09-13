@@ -18,7 +18,7 @@ class App extends Component {
           <li><a href='/game'>Game</a></li>
         </ul>
         <Router history={browserHistory}>
-          <Route path='/' component={boomerangCollection}></Route>
+          <Route path='/' component={MemoGame}></Route>
           <Route path='/boomerangs' component={boomerangCollection}></Route> 
           <Route path='/panoramas' component={panoramaCollection}></Route>
           <Route path='/game' component={MemoGame}></Route>      

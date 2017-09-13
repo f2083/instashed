@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {toggleSide, hideAll, fixSlide} from '../actions/actions'
+import {toggleSide, hideAll, fixSlide, newGame} from '../actions/actions'
 import Tile from './Tile'
 
 function mapStateToProps (state) {
-	console.log(state)
   return {
   		slideActions: state.slideActions
   }
@@ -21,7 +20,10 @@ const mapDispatchToProps = (dispatch) => {
         fixSlide: () => {
 				dispatch(hideAll())        
         },
-    }
+        newGame: () => {
+				dispatch(newGame())        
+        }
+	}
 };
 
 class Game extends Component{
@@ -36,12 +38,10 @@ class Game extends Component{
 	}
 	
 	render () {
-		console.log('game render')
 		return (
 				<div className='Game'>
 					{this.props.slideActions.map((item, key)=> {
-						return <Tile key={key} index={key} handleClick={this.handleClick}  turned={item.turned || item.fixed}>
-						{item.turned || item.fixed ? item.value : ''}
+						return <Tile key={key} index={key} handleClick={this.handleClick}  val={item.value} turned={item.turned || item.fixed}>
 						</Tile>
 					})}				
 				</div>	
@@ -49,8 +49,7 @@ class Game extends Component{
 	}
 	
 	handleClick (e) {
-		console.log('dispatch')
-		this.state.dispatch(toggleSide(parseInt(e.target.dataset.index,10)))
+		this.props.dispatch(toggleSide(parseInt(e.target.dataset.index,10)))
 	}
 	
 	checkEquality () {
@@ -62,14 +61,16 @@ class Game extends Component{
 			
 		})
 		if(this.props.slideActions.every(item => {return item.fixed})){
-			return alert('you win!!!')
+			let wannaMore = confirm('You win!!! Want to play one more time?')
+			wannaMore ? this.props.dispatch(newGame()) : alert('bye bye!')
+			return 
 		}	
 		if(turnedTiles.length && turnedTiles.length === 2){
 			if(turnedTiles[0].value === turnedTiles[1].value){		
-				return this.state.dispatch(fixSlide([turnedTiles[0].index,turnedTiles[1].index]))
+				return this.props.dispatch(fixSlide([turnedTiles[0].index,turnedTiles[1].index]))
 			}
 			setTimeout(
-				function(){this.state.dispatch(hideAll(1))}.bind(this),			
+				function(){this.props.dispatch(hideAll(1))}.bind(this),			
 				1000
 			)
 			return

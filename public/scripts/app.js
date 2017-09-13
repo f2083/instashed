@@ -28318,7 +28318,7 @@ var App = function (_Component) {
         _react2.default.createElement(
           _reactRouter.Router,
           { history: _reactRouter.browserHistory },
-          _react2.default.createElement(_reactRouter.Route, { path: '/', component: _boomerangCollection2.default }),
+          _react2.default.createElement(_reactRouter.Route, { path: '/', component: _MemoGame2.default }),
           _react2.default.createElement(_reactRouter.Route, { path: '/boomerangs', component: _boomerangCollection2.default }),
           _react2.default.createElement(_reactRouter.Route, { path: '/panoramas', component: _panoramaCollection2.default }),
           _react2.default.createElement(_reactRouter.Route, { path: '/game', component: _MemoGame2.default })
@@ -28342,10 +28342,12 @@ exports.toggleSide = toggleSide;
 exports.fixSlide = fixSlide;
 exports.checkEquality = checkEquality;
 exports.hideAll = hideAll;
+exports.newGame = newGame;
 var TOGGLE_SIDE = exports.TOGGLE_SIDE = 'TOGGLE_SIDE';
 var CHECK_EQUALITY = exports.CHECK_EQUALITY = 'CHECK_EQUALITY';
 var FIX_SLIDE = exports.FIX_SLIDE = 'FIX_SLIDE';
 var HIDE_ALL = exports.HIDE_ALL = 'HIDE_ALL';
+var NEW_GAME = exports.NEW_GAME = 'NEW_GAME';
 
 var VisibilityFilters = exports.VisibilityFilters = {
   SHOW_ALL: 'SHOW_ALL',
@@ -28362,12 +28364,16 @@ function fixSlide(index) {
   return { type: FIX_SLIDE, index: index };
 }
 
-function checkEquality(filter) {
-  return { type: CHECK_EQUALITY, filter: filter };
+function checkEquality(index) {
+  return { type: CHECK_EQUALITY, index: index };
 }
 
-function hideAll(filter) {
-  return { type: HIDE_ALL, filter: filter };
+function hideAll(index) {
+  return { type: HIDE_ALL, index: index };
+}
+
+function newGame(index) {
+  return { type: NEW_GAME, index: index };
 }
 
 },{}],290:[function(require,module,exports){
@@ -28449,7 +28455,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function mapStateToProps(state) {
-	console.log(state);
 	return {
 		slideActions: state.slideActions
 	};
@@ -28465,6 +28470,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 		},
 		fixSlide: function fixSlide() {
 			dispatch((0, _actions.hideAll)());
+		},
+		newGame: function newGame() {
+			dispatch((0, _actions.newGame)());
 		}
 	};
 };
@@ -28492,24 +28500,18 @@ var Game = function (_Component) {
 		value: function render() {
 			var _this2 = this;
 
-			console.log('game render');
 			return _react2.default.createElement(
 				'div',
 				{ className: 'Game' },
 				this.props.slideActions.map(function (item, key) {
-					return _react2.default.createElement(
-						_Tile2.default,
-						{ key: key, index: key, handleClick: _this2.handleClick, turned: item.turned || item.fixed },
-						item.turned || item.fixed ? item.value : ''
-					);
+					return _react2.default.createElement(_Tile2.default, { key: key, index: key, handleClick: _this2.handleClick, val: item.value, turned: item.turned || item.fixed });
 				})
 			);
 		}
 	}, {
 		key: 'handleClick',
 		value: function handleClick(e) {
-			console.log('dispatch');
-			this.state.dispatch((0, _actions.toggleSide)(parseInt(e.target.dataset.index, 10)));
+			this.props.dispatch((0, _actions.toggleSide)(parseInt(e.target.dataset.index, 10)));
 		}
 	}, {
 		key: 'checkEquality',
@@ -28523,14 +28525,16 @@ var Game = function (_Component) {
 			if (this.props.slideActions.every(function (item) {
 				return item.fixed;
 			})) {
-				return alert('you win!!!');
+				var wannaMore = confirm('You win!!! Want to play one more time?');
+				wannaMore ? this.props.dispatch((0, _actions.newGame)()) : alert('bye bye!');
+				return;
 			}
 			if (turnedTiles.length && turnedTiles.length === 2) {
 				if (turnedTiles[0].value === turnedTiles[1].value) {
-					return this.state.dispatch((0, _actions.fixSlide)([turnedTiles[0].index, turnedTiles[1].index]));
+					return this.props.dispatch((0, _actions.fixSlide)([turnedTiles[0].index, turnedTiles[1].index]));
 				}
 				setTimeout(function () {
-					this.state.dispatch((0, _actions.hideAll)(1));
+					this.props.dispatch((0, _actions.hideAll)(1));
 				}.bind(this), 1000);
 				return;
 			}
@@ -28600,6 +28604,21 @@ var initialState = { slideActions: [{ turned: false,
 		value: 4 }, { turned: false,
 		fixed: false,
 		value: 1 }] };
+
+function mixState(array) {
+	var newState = [];
+	array.forEach(function (item) {
+		if (Math.round(Math.random()) === 0) {
+			newState.push(item);
+			return;
+		}
+		newState.unshift(item);
+	});
+	return newState;
+}
+
+initialState.slideActions = mixState(initialState.slideActions);
+
 var store = (0, _redux.createStore)(_reducers2.default, initialState);
 
 var MemoGame = function (_Component) {
@@ -28661,12 +28680,7 @@ var Tile = function (_Component) {
 		key: 'render',
 		value: function render() {
 			var turned = this.props.turned ? 'turned' : '';
-			console.log('render');
-			return _react2.default.createElement(
-				'div',
-				{ onClick: this.props.handleClick, 'data-index': this.props.index, className: 'Tile ' + turned },
-				this.props.children
-			);
+			return _react2.default.createElement('div', { onClick: this.props.handleClick, 'data-index': this.props.index, className: 'Tile ' + turned + ' pic' + this.props.val });
 		}
 	}]);
 
@@ -28936,7 +28950,6 @@ function slideActions() {
 
   switch (action.type) {
     case _actions.TOGGLE_SIDE:
-      console.log('toggleSide received');
       newState = state.map(function (item, index) {
         if (index === action.index) {
           return Object.assign({}, item, {
@@ -28964,6 +28977,18 @@ function slideActions() {
           });
         }
         return item;
+      });
+      return newState;
+    case _actions.NEW_GAME:
+      newState = [];
+      state.forEach(function (item) {
+        if (Math.round(Math.random()) === 0) {
+          return newState.push(item);
+        }
+        newState.unshift(item);
+      });
+      newState.forEach(function (item) {
+        item.turned = item.fixed = false;
       });
       return newState;
     default:
