@@ -28245,21 +28245,13 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactRouter = require('react-router');
 
-var _boomerangCollection = require('./components/boomerangCollection');
+var _Router = require('./components/Router');
 
-var _boomerangCollection2 = _interopRequireDefault(_boomerangCollection);
+var _Router2 = _interopRequireDefault(_Router);
 
-var _panoramaCollection = require('./components/panoramaCollection');
+var _Links = require('./components/Links');
 
-var _panoramaCollection2 = _interopRequireDefault(_panoramaCollection);
-
-var _Game = require('./components/Game');
-
-var _Game2 = _interopRequireDefault(_Game);
-
-var _MemoGame = require('./components/MemoGame');
-
-var _MemoGame2 = _interopRequireDefault(_MemoGame);
+var _Links2 = _interopRequireDefault(_Links);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28284,45 +28276,8 @@ var App = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: 'App' },
-        _react2.default.createElement(
-          'ul',
-          null,
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'a',
-              { href: '/boomerangs' },
-              'Boomerangs'
-            )
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'a',
-              { href: '/panoramas' },
-              'Panoramas'
-            )
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'a',
-              { href: '/game' },
-              'Game'
-            )
-          )
-        ),
-        _react2.default.createElement(
-          _reactRouter.Router,
-          { history: _reactRouter.browserHistory },
-          _react2.default.createElement(_reactRouter.Route, { path: '/', component: _MemoGame2.default }),
-          _react2.default.createElement(_reactRouter.Route, { path: '/boomerangs', component: _boomerangCollection2.default }),
-          _react2.default.createElement(_reactRouter.Route, { path: '/panoramas', component: _panoramaCollection2.default }),
-          _react2.default.createElement(_reactRouter.Route, { path: '/game', component: _MemoGame2.default })
-        )
+        _react2.default.createElement(_Links2.default, null),
+        _react2.default.createElement(_Router2.default, { history: _reactRouter.browserHistory })
       );
     }
   }]);
@@ -28332,7 +28287,7 @@ var App = function (_Component) {
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('react-container'));
 
-},{"./components/Game":291,"./components/MemoGame":292,"./components/boomerangCollection":294,"./components/panoramaCollection":296,"react":265,"react-dom":54,"react-router":233}],289:[function(require,module,exports){
+},{"./components/Links":292,"./components/Router":294,"react":265,"react-dom":54,"react-router":233}],289:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28546,7 +28501,56 @@ var Game = function (_Component) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(Game);
 
-},{"../actions/actions":289,"./Tile":293,"react":265,"react-redux":190}],292:[function(require,module,exports){
+},{"../actions/actions":289,"./Tile":295,"react":265,"react-redux":190}],292:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Links = function Links() {
+	return _react2.default.createElement(
+		'ul',
+		null,
+		_react2.default.createElement(
+			'li',
+			null,
+			_react2.default.createElement(
+				'a',
+				{ href: '/boomerangs' },
+				'Boomerangs'
+			)
+		),
+		_react2.default.createElement(
+			'li',
+			null,
+			_react2.default.createElement(
+				'a',
+				{ href: '/panoramas' },
+				'Panoramas'
+			)
+		),
+		_react2.default.createElement(
+			'li',
+			null,
+			_react2.default.createElement(
+				'a',
+				{ href: '/game' },
+				'Game'
+			)
+		)
+	);
+};
+
+exports.default = Links;
+
+},{"react":265}],293:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28646,7 +28650,74 @@ var MemoGame = function (_Component) {
 
 exports.default = MemoGame;
 
-},{"../reducers/reducers":298,"./Game":291,"react":265,"react-redux":190,"redux":271}],293:[function(require,module,exports){
+},{"../reducers/reducers":300,"./Game":291,"react":265,"react-redux":190,"redux":271}],294:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+var _boomerangCollection = require('../components/boomerangCollection');
+
+var _boomerangCollection2 = _interopRequireDefault(_boomerangCollection);
+
+var _panoramaCollection = require('../components/panoramaCollection');
+
+var _panoramaCollection2 = _interopRequireDefault(_panoramaCollection);
+
+var _Game = require('../components/Game');
+
+var _Game2 = _interopRequireDefault(_Game);
+
+var _MemoGame = require('../components/MemoGame');
+
+var _MemoGame2 = _interopRequireDefault(_MemoGame);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Navigator = function (_Router) {
+  _inherits(Navigator, _Router);
+
+  function Navigator() {
+    _classCallCheck(this, Navigator);
+
+    return _possibleConstructorReturn(this, (Navigator.__proto__ || Object.getPrototypeOf(Navigator)).apply(this, arguments));
+  }
+
+  _createClass(Navigator, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactRouter.Router,
+        { history: this.props.history },
+        _react2.default.createElement(_reactRouter.Route, { path: '/', component: _MemoGame2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: 'boomerangs', component: _boomerangCollection2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: 'panoramas', component: _panoramaCollection2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: 'game', component: _MemoGame2.default })
+      );
+    }
+  }]);
+
+  return Navigator;
+}(_reactRouter.Router);
+
+exports.default = Navigator;
+
+},{"../components/Game":291,"../components/MemoGame":293,"../components/boomerangCollection":296,"../components/panoramaCollection":298,"react":265,"react-router":233}],295:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28689,7 +28760,7 @@ var Tile = function (_Component) {
 
 exports.default = Tile;
 
-},{"react":265}],294:[function(require,module,exports){
+},{"react":265}],296:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28772,7 +28843,7 @@ var boomerangCollection = function (_Component) {
 
 exports.default = boomerangCollection;
 
-},{"../modules/httpGet":297,"./Boomerang":290,"react":265}],295:[function(require,module,exports){
+},{"../modules/httpGet":299,"./Boomerang":290,"react":265}],297:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28818,7 +28889,7 @@ var CloudImage = function (_Component) {
 
 exports.default = CloudImage;
 
-},{"react":265}],296:[function(require,module,exports){
+},{"react":265}],298:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28902,7 +28973,7 @@ var panoramaCollection = function (_Component) {
 
 exports.default = panoramaCollection;
 
-},{"../modules/httpGet":297,"./cloudImage":295,"react":265}],297:[function(require,module,exports){
+},{"../modules/httpGet":299,"./cloudImage":297,"react":265}],299:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28931,7 +29002,7 @@ function httpGet(url) {
   return new Promise(sendRequest);
 }
 
-},{}],298:[function(require,module,exports){
+},{}],300:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

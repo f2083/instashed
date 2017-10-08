@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-import ImageCollection from '../components/imageCollection'
+import { Router, Route } from 'react-router'
+import boomerangCollection from '../components/boomerangCollection'
+import panoramaCollection from '../components/panoramaCollection'
+import Game from '../components/Game'
+import MemoGame from '../components/MemoGame'
+
 
 class Navigator extends Router{
 	render(){
-		return	(<Router history={browserHistory}>
-			<Route path='/' component={ImageCollection}></Route>
-			<Route path='/collection' component={ImageCollection}></Route>    
-		</Router>)
+		return	(<Router history={this.props.history}>
+          <Route path='/' component={MemoGame}></Route>
+          <Route path='boomerangs' component={boomerangCollection}></Route> 
+          <Route path='panoramas' component={panoramaCollection}></Route>
+          <Route path='game' component={MemoGame}></Route>      
+        </Router>)
 	}
 }	
 
