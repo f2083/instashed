@@ -28397,7 +28397,7 @@ var _reactRedux = require('react-redux');
 
 var _actions = require('../actions/actions');
 
-var _Tile = require('./Tile');
+var _Tile = require('../components/Tile');
 
 var _Tile2 = _interopRequireDefault(_Tile);
 
@@ -28501,7 +28501,7 @@ var Game = function (_Component) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(Game);
 
-},{"../actions/actions":289,"./Tile":295,"react":265,"react-redux":190}],292:[function(require,module,exports){
+},{"../actions/actions":289,"../components/Tile":295,"react":265,"react-redux":190}],292:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28563,17 +28563,15 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _redux = require('redux');
-
 var _reactRedux = require('react-redux');
+
+var _Store = require('../store/Store');
+
+var _Store2 = _interopRequireDefault(_Store);
 
 var _Game = require('./Game');
 
 var _Game2 = _interopRequireDefault(_Game);
-
-var _reducers = require('../reducers/reducers');
-
-var _reducers2 = _interopRequireDefault(_reducers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28582,48 +28580,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var initialState = { slideActions: [{ turned: false,
-		fixed: false,
-		value: 1 }, { turned: false,
-		fixed: false,
-		value: 2 }, { turned: false,
-		fixed: false,
-		value: 4 }, { turned: false,
-		fixed: false,
-		value: 3 }, { turned: false,
-		fixed: false,
-		value: 5 }, { turned: false,
-		fixed: false,
-		value: 3 }, { turned: false,
-		fixed: false,
-		value: 6 }, { turned: false,
-		fixed: false,
-		value: 5 }, { turned: false,
-		fixed: false,
-		value: 2 }, { turned: false,
-		fixed: false,
-		value: 6 }, { turned: false,
-		fixed: false,
-		value: 4 }, { turned: false,
-		fixed: false,
-		value: 1 }] };
-
-function mixState(array) {
-	var newState = [];
-	array.forEach(function (item) {
-		if (Math.round(Math.random()) === 0) {
-			newState.push(item);
-			return;
-		}
-		newState.unshift(item);
-	});
-	return newState;
-}
-
-initialState.slideActions = mixState(initialState.slideActions);
-
-var store = (0, _redux.createStore)(_reducers2.default, initialState);
 
 var MemoGame = function (_Component) {
 	_inherits(MemoGame, _Component);
@@ -28639,7 +28595,7 @@ var MemoGame = function (_Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				_reactRedux.Provider,
-				{ store: store },
+				{ store: _Store2.default },
 				_react2.default.createElement(_Game2.default, null)
 			);
 		}
@@ -28650,7 +28606,7 @@ var MemoGame = function (_Component) {
 
 exports.default = MemoGame;
 
-},{"../reducers/reducers":300,"./Game":291,"react":265,"react-redux":190,"redux":271}],294:[function(require,module,exports){
+},{"../store/Store":301,"./Game":291,"react":265,"react-redux":190}],294:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29073,4 +29029,73 @@ var slideGame = (0, _redux.combineReducers)({
 
 exports.default = slideGame;
 
-},{"../actions/actions":289,"redux":271}]},{},[288]);
+},{"../actions/actions":289,"redux":271}],301:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _redux = require('redux');
+
+var _reducers = require('../reducers/reducers');
+
+var _reducers2 = _interopRequireDefault(_reducers);
+
+var _initialState = require('../store/initialState');
+
+var _initialState2 = _interopRequireDefault(_initialState);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function mixState(array) {
+	var newState = [];
+	array.forEach(function (item) {
+		if (Math.round(Math.random()) === 0) {
+			newState.push(item);
+			return;
+		}
+		newState.unshift(item);
+	});
+	return newState;
+}
+
+_initialState2.default.slideActions = mixState(_initialState2.default.slideActions);
+
+var store = (0, _redux.createStore)(_reducers2.default, _initialState2.default);
+
+exports.default = store;
+
+},{"../reducers/reducers":300,"../store/initialState":302,"redux":271}],302:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = { slideActions: [{ turned: false,
+		fixed: false,
+		value: 1 }, { turned: false,
+		fixed: false,
+		value: 2 }, { turned: false,
+		fixed: false,
+		value: 4 }, { turned: false,
+		fixed: false,
+		value: 3 }, { turned: false,
+		fixed: false,
+		value: 5 }, { turned: false,
+		fixed: false,
+		value: 3 }, { turned: false,
+		fixed: false,
+		value: 6 }, { turned: false,
+		fixed: false,
+		value: 5 }, { turned: false,
+		fixed: false,
+		value: 2 }, { turned: false,
+		fixed: false,
+		value: 6 }, { turned: false,
+		fixed: false,
+		value: 4 }, { turned: false,
+		fixed: false,
+		value: 1 }] };
+
+},{}]},{},[288]);

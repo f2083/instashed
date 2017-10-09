@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {toggleSide, hideAll, fixSlide, newGame} from '../actions/actions'
-import Tile from './Tile'
+import Tile from '../components/Tile'
 
 function mapStateToProps (state) {
   return {
