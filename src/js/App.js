@@ -4,7 +4,6 @@ import { browserHistory } from 'react-router'
 import Navigator from './components/Router'
 import Links from './components/Links'
 
-
 class App extends Component {
   render() {
     return (
