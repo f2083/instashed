@@ -28245,21 +28245,13 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactRouter = require('react-router');
 
-var _boomerangCollection = require('./components/boomerangCollection');
+var _Router = require('./components/Router');
 
-var _boomerangCollection2 = _interopRequireDefault(_boomerangCollection);
+var _Router2 = _interopRequireDefault(_Router);
 
-var _panoramaCollection = require('./components/panoramaCollection');
+var _Links = require('./components/Links');
 
-var _panoramaCollection2 = _interopRequireDefault(_panoramaCollection);
-
-var _Game = require('./components/Game');
-
-var _Game2 = _interopRequireDefault(_Game);
-
-var _MemoGame = require('./components/MemoGame');
-
-var _MemoGame2 = _interopRequireDefault(_MemoGame);
+var _Links2 = _interopRequireDefault(_Links);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28284,45 +28276,8 @@ var App = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: 'App' },
-        _react2.default.createElement(
-          'ul',
-          null,
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'a',
-              { href: '/boomerangs' },
-              'Boomerangs'
-            )
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'a',
-              { href: '/panoramas' },
-              'Panoramas'
-            )
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'a',
-              { href: '/game' },
-              'Game'
-            )
-          )
-        ),
-        _react2.default.createElement(
-          _reactRouter.Router,
-          { history: _reactRouter.browserHistory },
-          _react2.default.createElement(_reactRouter.Route, { path: '/', component: _boomerangCollection2.default }),
-          _react2.default.createElement(_reactRouter.Route, { path: '/boomerangs', component: _boomerangCollection2.default }),
-          _react2.default.createElement(_reactRouter.Route, { path: '/panoramas', component: _panoramaCollection2.default }),
-          _react2.default.createElement(_reactRouter.Route, { path: '/game', component: _MemoGame2.default })
-        )
+        _react2.default.createElement(_Links2.default, null),
+        _react2.default.createElement(_Router2.default, { history: _reactRouter.browserHistory })
       );
     }
   }]);
@@ -28332,18 +28287,22 @@ var App = function (_Component) {
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('react-container'));
 
-},{"./components/Game":291,"./components/MemoGame":292,"./components/boomerangCollection":294,"./components/panoramaCollection":296,"react":265,"react-dom":54,"react-router":233}],289:[function(require,module,exports){
+},{"./components/Links":292,"./components/Router":294,"react":265,"react-dom":54,"react-router":233}],289:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.toggleSide = toggleSide;
-exports.fixSide = fixSide;
+exports.fixSlide = fixSlide;
 exports.checkEquality = checkEquality;
+exports.hideAll = hideAll;
+exports.newGame = newGame;
 var TOGGLE_SIDE = exports.TOGGLE_SIDE = 'TOGGLE_SIDE';
 var CHECK_EQUALITY = exports.CHECK_EQUALITY = 'CHECK_EQUALITY';
-var FIX_SIDE = exports.FIX_SIDE = 'FIX_SIDE';
+var FIX_SLIDE = exports.FIX_SLIDE = 'FIX_SLIDE';
+var HIDE_ALL = exports.HIDE_ALL = 'HIDE_ALL';
+var NEW_GAME = exports.NEW_GAME = 'NEW_GAME';
 
 var VisibilityFilters = exports.VisibilityFilters = {
   SHOW_ALL: 'SHOW_ALL',
@@ -28356,12 +28315,20 @@ function toggleSide(index) {
   return { type: TOGGLE_SIDE, index: index };
 }
 
-function fixSide(index) {
-  return { type: FIX_SIDE, index: index };
+function fixSlide(index) {
+  return { type: FIX_SLIDE, index: index };
 }
 
-function checkEquality(filter) {
-  return { type: CHECK_EQUALITY, filter: filter };
+function checkEquality(index) {
+  return { type: CHECK_EQUALITY, index: index };
+}
+
+function hideAll(index) {
+  return { type: HIDE_ALL, index: index };
+}
+
+function newGame(index) {
+  return { type: NEW_GAME, index: index };
 }
 
 },{}],290:[function(require,module,exports){
@@ -28430,13 +28397,9 @@ var _reactRedux = require('react-redux');
 
 var _actions = require('../actions/actions');
 
-var actions = _interopRequireWildcard(_actions);
-
-var _Tile = require('./Tile');
+var _Tile = require('../components/Tile');
 
 var _Tile2 = _interopRequireDefault(_Tile);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28446,18 +28409,28 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var sceneStyles = {
-	position: 'relative',
-	overflow: 'hidden',
-	width: '500px',
-	height: '500px',
-	backgroundColor: 'gray',
-	border: '1px solid black'
-};
-
 function mapStateToProps(state) {
-	return state;
+	return {
+		slideActions: state.slideActions
+	};
 }
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	return {
+		toggleSide: function toggleSide() {
+			dispatch((0, _actions.toggleSide)());
+		},
+		hideAll: function hideAll() {
+			dispatch((0, _actions.hideAll)());
+		},
+		fixSlide: function fixSlide() {
+			dispatch((0, _actions.hideAll)());
+		},
+		newGame: function newGame() {
+			dispatch((0, _actions.newGame)());
+		}
+	};
+};
 
 var Game = function (_Component) {
 	_inherits(Game, _Component);
@@ -28467,40 +28440,59 @@ var Game = function (_Component) {
 
 		var _this = _possibleConstructorReturn(this, (Game.__proto__ || Object.getPrototypeOf(Game)).call(this, props));
 
-		_this.state = {
-			tileStyles: {
-				width: '32%',
-				height: '24%',
-				backgroundColor: 'red',
-				display: 'inline-block',
-				border: '1px solid black'
-			},
-			tiles: [[], [], [], [], [], [], [], [], [], [], [], []]
-		};
+		_this.state = props;
 		_this.handleClick = _this.handleClick.bind(_this);
 		return _this;
 	}
 
 	_createClass(Game, [{
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate() {
+			this.checkEquality();
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var _this2 = this;
 
 			return _react2.default.createElement(
 				'div',
-				{ className: 'Game', style: sceneStyles },
+				{ className: 'Game' },
 				this.props.slideActions.map(function (item, key) {
-					return _react2.default.createElement(_Tile2.default, { css: _this2.state.tileStyles, key: key, index: key, handleClick: _this2.handleClick, val: item.value });
+					return _react2.default.createElement(_Tile2.default, { key: key, index: key, handleClick: _this2.handleClick, val: item.value, turned: item.turned || item.fixed });
 				})
 			);
 		}
 	}, {
 		key: 'handleClick',
 		value: function handleClick(e) {
-			console.log('toggleSide 1');
-			console.log(this);
-			e.target.style.background = 'blue';
-			this.props.dispatch(actions.toggleSide(parseInt(e.target.dataset.index, 10)));
+			this.props.dispatch((0, _actions.toggleSide)(parseInt(e.target.dataset.index, 10)));
+		}
+	}, {
+		key: 'checkEquality',
+		value: function checkEquality() {
+			var turnedTiles = this.props.slideActions.filter(function (item, index) {
+				if (item.turned && !item.fixed) {
+					item.index = index;
+					return true;
+				}
+			});
+			if (this.props.slideActions.every(function (item) {
+				return item.fixed;
+			})) {
+				var wannaMore = confirm('You win!!! Want to play one more time?');
+				wannaMore ? this.props.dispatch((0, _actions.newGame)()) : alert('bye bye!');
+				return;
+			}
+			if (turnedTiles.length && turnedTiles.length === 2) {
+				if (turnedTiles[0].value === turnedTiles[1].value) {
+					return this.props.dispatch((0, _actions.fixSlide)([turnedTiles[0].index, turnedTiles[1].index]));
+				}
+				setTimeout(function () {
+					this.props.dispatch((0, _actions.hideAll)(1));
+				}.bind(this), 1000);
+				return;
+			}
 		}
 	}]);
 
@@ -28509,7 +28501,56 @@ var Game = function (_Component) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(Game);
 
-},{"../actions/actions":289,"./Tile":293,"react":265,"react-redux":190}],292:[function(require,module,exports){
+},{"../actions/actions":289,"../components/Tile":295,"react":265,"react-redux":190}],292:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Links = function Links() {
+	return _react2.default.createElement(
+		'ul',
+		null,
+		_react2.default.createElement(
+			'li',
+			null,
+			_react2.default.createElement(
+				'a',
+				{ href: '/boomerangs' },
+				'Boomerangs'
+			)
+		),
+		_react2.default.createElement(
+			'li',
+			null,
+			_react2.default.createElement(
+				'a',
+				{ href: '/panoramas' },
+				'Panoramas'
+			)
+		),
+		_react2.default.createElement(
+			'li',
+			null,
+			_react2.default.createElement(
+				'a',
+				{ href: '/game' },
+				'Game'
+			)
+		)
+	);
+};
+
+exports.default = Links;
+
+},{"react":265}],293:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28522,17 +28563,15 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _redux = require('redux');
-
 var _reactRedux = require('react-redux');
+
+var _Store = require('../store/Store');
+
+var _Store2 = _interopRequireDefault(_Store);
 
 var _Game = require('./Game');
 
 var _Game2 = _interopRequireDefault(_Game);
-
-var _reducers = require('../reducers/reducers');
-
-var _reducers2 = _interopRequireDefault(_reducers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28541,21 +28580,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var initialState = { slideActions: [{ turned: false,
-		value: 1 }, { turned: false,
-		value: 2 }, { turned: false,
-		value: 4 }, { turned: false,
-		value: 3 }, { turned: false,
-		value: 5 }, { turned: false,
-		value: 3 }, { turned: false,
-		value: 6 }, { turned: false,
-		value: 5 }, { turned: false,
-		value: 2 }, { turned: false,
-		value: 6 }, { turned: false,
-		value: 4 }, { turned: false,
-		value: 1 }] };
-var store = (0, _redux.createStore)(_reducers2.default, initialState);
 
 var MemoGame = function (_Component) {
 	_inherits(MemoGame, _Component);
@@ -28571,7 +28595,7 @@ var MemoGame = function (_Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				_reactRedux.Provider,
-				{ store: store },
+				{ store: _Store2.default },
 				_react2.default.createElement(_Game2.default, null)
 			);
 		}
@@ -28582,7 +28606,74 @@ var MemoGame = function (_Component) {
 
 exports.default = MemoGame;
 
-},{"../reducers/reducers":298,"./Game":291,"react":265,"react-redux":190,"redux":271}],293:[function(require,module,exports){
+},{"../store/Store":301,"./Game":291,"react":265,"react-redux":190}],294:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+var _boomerangCollection = require('../components/boomerangCollection');
+
+var _boomerangCollection2 = _interopRequireDefault(_boomerangCollection);
+
+var _panoramaCollection = require('../components/panoramaCollection');
+
+var _panoramaCollection2 = _interopRequireDefault(_panoramaCollection);
+
+var _Game = require('../components/Game');
+
+var _Game2 = _interopRequireDefault(_Game);
+
+var _MemoGame = require('../components/MemoGame');
+
+var _MemoGame2 = _interopRequireDefault(_MemoGame);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Navigator = function (_Router) {
+  _inherits(Navigator, _Router);
+
+  function Navigator() {
+    _classCallCheck(this, Navigator);
+
+    return _possibleConstructorReturn(this, (Navigator.__proto__ || Object.getPrototypeOf(Navigator)).apply(this, arguments));
+  }
+
+  _createClass(Navigator, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactRouter.Router,
+        { history: this.props.history },
+        _react2.default.createElement(_reactRouter.Route, { path: '/', component: _MemoGame2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: 'boomerangs', component: _boomerangCollection2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: 'panoramas', component: _panoramaCollection2.default }),
+        _react2.default.createElement(_reactRouter.Route, { path: 'game', component: _MemoGame2.default })
+      );
+    }
+  }]);
+
+  return Navigator;
+}(_reactRouter.Router);
+
+exports.default = Navigator;
+
+},{"../components/Game":291,"../components/MemoGame":293,"../components/boomerangCollection":296,"../components/panoramaCollection":298,"react":265,"react-router":233}],295:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28615,11 +28706,8 @@ var Tile = function (_Component) {
 	_createClass(Tile, [{
 		key: 'render',
 		value: function render() {
-			return _react2.default.createElement(
-				'div',
-				{ className: 'Tile', style: this.props.css, onClick: this.props.handleClick, 'data-index': this.props.index },
-				this.props.val
-			);
+			var turned = this.props.turned ? 'turned' : '';
+			return _react2.default.createElement('div', { onClick: this.props.handleClick, 'data-index': this.props.index, className: 'Tile ' + turned + ' pic' + this.props.val });
 		}
 	}]);
 
@@ -28628,7 +28716,7 @@ var Tile = function (_Component) {
 
 exports.default = Tile;
 
-},{"react":265}],294:[function(require,module,exports){
+},{"react":265}],296:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28711,7 +28799,7 @@ var boomerangCollection = function (_Component) {
 
 exports.default = boomerangCollection;
 
-},{"../modules/httpGet":297,"./Boomerang":290,"react":265}],295:[function(require,module,exports){
+},{"../modules/httpGet":299,"./Boomerang":290,"react":265}],297:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28757,7 +28845,7 @@ var CloudImage = function (_Component) {
 
 exports.default = CloudImage;
 
-},{"react":265}],296:[function(require,module,exports){
+},{"react":265}],298:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28841,7 +28929,7 @@ var panoramaCollection = function (_Component) {
 
 exports.default = panoramaCollection;
 
-},{"../modules/httpGet":297,"./cloudImage":295,"react":265}],297:[function(require,module,exports){
+},{"../modules/httpGet":299,"./cloudImage":297,"react":265}],299:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28870,7 +28958,7 @@ function httpGet(url) {
   return new Promise(sendRequest);
 }
 
-},{}],298:[function(require,module,exports){
+},{}],300:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28881,26 +28969,55 @@ var _redux = require('redux');
 
 var _actions = require('../actions/actions');
 
+var newState;
+
 function slideActions() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
 
   switch (action.type) {
     case _actions.TOGGLE_SIDE:
-      console.log('toggleSide received');
-      console.log(action);
-      var newState = state;
-      newState[action.index].turned = !state[action.index].turned;
-      return newState;
-    case _actions.CHECK_EQUALITY:
-      return state.map(function (item, index) {
+      newState = state.map(function (item, index) {
         if (index === action.index) {
           return Object.assign({}, item, {
-            completed: !item.completed
+            turned: !item.turned
           });
         }
-        return todo;
+        return item;
       });
+      return newState;
+    case _actions.HIDE_ALL:
+      newState = state.map(function (item, index) {
+        if (item.turned) {
+          return Object.assign({}, item, {
+            turned: !item.turned
+          });
+        }
+        return item;
+      });
+      return newState;
+    case _actions.FIX_SLIDE:
+      newState = state.map(function (item, index) {
+        if (action.index.indexOf(index) >= 0) {
+          return Object.assign({}, item, {
+            fixed: true
+          });
+        }
+        return item;
+      });
+      return newState;
+    case _actions.NEW_GAME:
+      newState = [];
+      state.forEach(function (item) {
+        if (Math.round(Math.random()) === 0) {
+          return newState.push(item);
+        }
+        newState.unshift(item);
+      });
+      newState.forEach(function (item) {
+        item.turned = item.fixed = false;
+      });
+      return newState;
     default:
       return state;
   }
@@ -28912,4 +29029,73 @@ var slideGame = (0, _redux.combineReducers)({
 
 exports.default = slideGame;
 
-},{"../actions/actions":289,"redux":271}]},{},[288]);
+},{"../actions/actions":289,"redux":271}],301:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _redux = require('redux');
+
+var _reducers = require('../reducers/reducers');
+
+var _reducers2 = _interopRequireDefault(_reducers);
+
+var _initialState = require('../store/initialState');
+
+var _initialState2 = _interopRequireDefault(_initialState);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function mixState(array) {
+	var newState = [];
+	array.forEach(function (item) {
+		if (Math.round(Math.random()) === 0) {
+			newState.push(item);
+			return;
+		}
+		newState.unshift(item);
+	});
+	return newState;
+}
+
+_initialState2.default.slideActions = mixState(_initialState2.default.slideActions);
+
+var store = (0, _redux.createStore)(_reducers2.default, _initialState2.default);
+
+exports.default = store;
+
+},{"../reducers/reducers":300,"../store/initialState":302,"redux":271}],302:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = { slideActions: [{ turned: false,
+		fixed: false,
+		value: 1 }, { turned: false,
+		fixed: false,
+		value: 2 }, { turned: false,
+		fixed: false,
+		value: 4 }, { turned: false,
+		fixed: false,
+		value: 3 }, { turned: false,
+		fixed: false,
+		value: 5 }, { turned: false,
+		fixed: false,
+		value: 3 }, { turned: false,
+		fixed: false,
+		value: 6 }, { turned: false,
+		fixed: false,
+		value: 5 }, { turned: false,
+		fixed: false,
+		value: 2 }, { turned: false,
+		fixed: false,
+		value: 6 }, { turned: false,
+		fixed: false,
+		value: 4 }, { turned: false,
+		fixed: false,
+		value: 1 }] };
+
+},{}]},{},[288]);

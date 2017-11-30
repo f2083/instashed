@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 
 class Tile extends Component{
+	
 	render(){
+		let turned = this.props.turned ? 'turned' : ''
 		return (
-			<div className='Tile' style={this.props.css} onClick={this.props.handleClick} data-index={this.props.index}>
-			{this.props.val}
+			<div onClick={this.props.handleClick} data-index={this.props.index} className={'Tile '+ turned + ' pic' + this.props.val}>
 			</div>					
 		)	
 	}
