@@ -514,3 +514,46 @@ template {
 .turned.pic6, .fixed.pic6{
   background-position: 102% 100%;
 }
+
+
+/* Tic Tac Toe */
+.Board {
+    width: 320px;
+}
+
+.Cell {
+  position: relative;
+    display: inline-block;
+    border: 2px solid red;
+    width: 100px;
+    height: 100px;
+}
+
+.x:before, .x:after, .o:before{
+  content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 100%;
+    height: 0; 
+    border-top: 5px solid blue;     
+}
+
+.x:before{
+  transform: rotate(45deg);
+  height: 0;
+}
+.x:after{
+  transform: rotate(-45deg);
+  height: 0;
+}
+.o:before{
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: 5px solid blue;
+  height: 90%;
+  width: 90%;
+}

@@ -28676,11 +28676,7 @@ var Cell = function (_Component) {
 	_createClass(Cell, [{
 		key: 'render',
 		value: function render() {
-			return _react2.default.createElement(
-				'div',
-				{ 'data-index': this.props.index, className: 'Cell ' },
-				'Cell'
-			);
+			return _react2.default.createElement('div', { 'data-index': this.props.index, className: 'Cell ' + this.props.klass });
 		}
 	}]);
 
@@ -29022,8 +29018,9 @@ var TicTacToe = function (_Component) {
 		var _this = _possibleConstructorReturn(this, (TicTacToe.__proto__ || Object.getPrototypeOf(TicTacToe)).call(this, props));
 
 		_this.state = {
-			cells: ['', '', '', '', '', '', '', '', '']
+			cells: ['x', '', '', '', 'o', '', '', '', '']
 		};
+		_this.handleClick = _this.handleClick.bind(_this);
 		return _this;
 	}
 
@@ -29032,16 +29029,28 @@ var TicTacToe = function (_Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ className: 'TicTacToe' },
+				{ className: 'TicTacToe', onClick: this.handleClick },
 				_react2.default.createElement(
 					'div',
-					null,
-					'Board'
-				),
-				this.state.cells.map(function (item, key) {
-					return _react2.default.createElement(_Cell2.default, { key: key, index: key });
-				})
+					{ className: 'Board' },
+					this.state.cells.map(function (item, key) {
+						return _react2.default.createElement(_Cell2.default, { key: key, index: key, klass: item });
+					})
+				)
 			);
+		}
+	}, {
+		key: 'handleClick',
+		value: function handleClick(e) {
+			var index = e.target.dataset.index;
+			var arr = this.state.cells;
+
+			if (/x|o/i.test(e.target.className)) {
+				return;
+			}
+
+			arr[index] = 'x';
+			this.setState({ cells: arr });
 		}
 	}]);
 

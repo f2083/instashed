@@ -7,20 +7,34 @@ class TicTacToe extends Component{
 	constructor(props) {
 	    super(props)
 	    this.state = {
-	    	cells: ['','','','','','','','','']
+	    	cells: ['x','','','','o','','','','']
 	    }
+	    this.handleClick = this.handleClick.bind(this)
 	}
 	
 	render () {
 		return (
-				<div className='TicTacToe'>
-					<div>Board</div>	
-					{this.state.cells.map((item, key)=> {
-						return <Cell key={key} index={key} >
-						</Cell>
-					})}								
+				<div className='TicTacToe' onClick={this.handleClick}>
+					<div className='Board'>
+						{this.state.cells.map((item, key)=> {
+							return <Cell key={key} index={key} klass={item}>
+							</Cell>
+						})}	
+					</div>							
 				</div>	
 		)
+	}
+
+	handleClick (e) {
+		let index = e.target.dataset.index
+		let arr = this.state.cells
+
+		if(/x|o/i.test(e.target.className)){
+			return
+		}
+
+		arr[index] = 'x'
+		this.setState({cells: arr})
 	}			
 }	
 
