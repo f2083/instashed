@@ -7,7 +7,9 @@ class TicTacToe extends Component{
 	constructor(props) {
 	    super(props)
 	    this.state = {
-	    	cells: ['x','','','','o','','','','']
+	    	cells: ['','','','','','','','',''],
+	    	symbol: 'X',
+	    	cpuTurn: false
 	    }
 	    this.handleClick = this.handleClick.bind(this)
 	}
@@ -24,6 +26,13 @@ class TicTacToe extends Component{
 				</div>	
 		)
 	}
+	
+	componentDidUpdate () {
+		if (this.state.cpuTurn) {
+			let gameState = ticTacToeAiEngine.computeMove(this.state.cells).nextBestGameState
+			this.setState({cells: gameState, cpuTurn: false})
+		}
+	}
 
 	handleClick (e) {
 		let index = e.target.dataset.index
@@ -33,8 +42,8 @@ class TicTacToe extends Component{
 			return
 		}
 
-		arr[index] = 'x'
-		this.setState({cells: arr})
+		arr[index] = this.state.symbol
+		this.setState({cells: arr, cpuTurn: true})
 	}			
 }	
 

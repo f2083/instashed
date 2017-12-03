@@ -529,7 +529,7 @@ template {
     height: 100px;
 }
 
-.x:before, .x:after, .o:before{
+.X:before, .X:after, .O:before{
   content: '';
     position: absolute;
     top: 0;
@@ -542,15 +542,15 @@ template {
     border-top: 5px solid blue;     
 }
 
-.x:before{
+.X:before{
   transform: rotate(45deg);
   height: 0;
 }
-.x:after{
+.X:after{
   transform: rotate(-45deg);
   height: 0;
 }
-.o:before{
+.O:before{
   border-radius: 50%;
   box-sizing: border-box;
   border: 5px solid blue;
