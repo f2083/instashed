@@ -9,7 +9,8 @@ class TicTacToe extends Component{
 	    this.state = {
 	    	cells: ['','','','','','','','',''],
 	    	symbol: 'X',
-	    	cpuTurn: false
+	    	cpuTurn: false,
+	    	winner: null 
 	    }
 	    this.handleClick = this.handleClick.bind(this)
 	}
@@ -17,6 +18,7 @@ class TicTacToe extends Component{
 	render () {
 		return (
 				<div className='TicTacToe' onClick={this.handleClick}>
+					<button className={'tttBtn' + 'hidden'}>Play Again</button>
 					<div className='Board'>
 						{this.state.cells.map((item, key)=> {
 							return <Cell key={key} index={key} klass={item}>
@@ -28,9 +30,19 @@ class TicTacToe extends Component{
 	}
 	
 	componentDidUpdate () {
+		let winner = ticTacToeAiEngine.determineWinner(this.state.cells)
+
+		if(this.state.winner){
+			return setTimeout(function(){alert('winner')}, 500)
+		}
+
+		if (winner) {
+			return this.setState({winner: winner, cpuTurn: true})
+		}
+
 		if (this.state.cpuTurn) {
 			let gameState = ticTacToeAiEngine.computeMove(this.state.cells).nextBestGameState
-			this.setState({cells: gameState, cpuTurn: false})
+			return this.setState({cells: gameState, cpuTurn: false})
 		}
 	}
 
@@ -38,7 +50,7 @@ class TicTacToe extends Component{
 		let index = e.target.dataset.index
 		let arr = this.state.cells
 
-		if(/x|o/i.test(e.target.className)){
+		if(/x|o/i.test(e.target.className) || this.state.winner){
 			return
 		}
 
