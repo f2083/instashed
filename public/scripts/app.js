@@ -29024,6 +29024,7 @@ var TicTacToe = function (_Component) {
 			winner: null
 		};
 		_this.handleClick = _this.handleClick.bind(_this);
+		_this.playAgain = _this.playAgain.bind(_this);
 		return _this;
 	}
 
@@ -29032,15 +29033,15 @@ var TicTacToe = function (_Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ className: 'TicTacToe', onClick: this.handleClick },
+				{ className: 'TicTacToe' },
 				_react2.default.createElement(
 					'button',
-					{ className: 'tttBtn' + 'hidden' },
+					{ className: 'playAgain', onClick: this.playAgain },
 					'Play Again'
 				),
 				_react2.default.createElement(
 					'div',
-					{ className: 'Board' },
+					{ className: 'Board', onClick: this.handleClick },
 					this.state.cells.map(function (item, key) {
 						return _react2.default.createElement(_Cell2.default, { key: key, index: key, klass: item });
 					})
@@ -29064,6 +29065,7 @@ var TicTacToe = function (_Component) {
 
 			if (this.state.cpuTurn) {
 				var gameState = _ticTacToeAiEngine2.default.computeMove(this.state.cells).nextBestGameState;
+
 				return this.setState({ cells: gameState, cpuTurn: false });
 			}
 		}
@@ -29079,6 +29081,16 @@ var TicTacToe = function (_Component) {
 
 			arr[index] = this.state.symbol;
 			this.setState({ cells: arr, cpuTurn: true });
+		}
+	}, {
+		key: 'playAgain',
+		value: function playAgain() {
+			this.setState({
+				cells: ['', '', '', '', '', '', '', '', ''],
+				symbol: 'X',
+				cpuTurn: false,
+				winner: null
+			});
 		}
 	}]);
 

@@ -13,13 +13,16 @@ class TicTacToe extends Component{
 	    	winner: null 
 	    }
 	    this.handleClick = this.handleClick.bind(this)
+	    this.playAgain = this.playAgain.bind(this)
 	}
 	
 	render () {
 		return (
-				<div className='TicTacToe' onClick={this.handleClick}>
-					<button className={'tttBtn' + 'hidden'}>Play Again</button>
-					<div className='Board'>
+				<div className='TicTacToe'>
+					<button className='playAgain' onClick={this.playAgain}>
+						Play Again
+					</button>
+					<div className='Board' onClick={this.handleClick}>
 						{this.state.cells.map((item, key)=> {
 							return <Cell key={key} index={key} klass={item}>
 							</Cell>
@@ -42,6 +45,7 @@ class TicTacToe extends Component{
 
 		if (this.state.cpuTurn) {
 			let gameState = ticTacToeAiEngine.computeMove(this.state.cells).nextBestGameState
+			
 			return this.setState({cells: gameState, cpuTurn: false})
 		}
 	}
@@ -56,7 +60,16 @@ class TicTacToe extends Component{
 
 		arr[index] = this.state.symbol
 		this.setState({cells: arr, cpuTurn: true})
-	}			
+	}
+
+	playAgain () {
+		this.setState({
+	    	cells: ['','','','','','','','',''],
+	    	symbol: 'X',
+	    	cpuTurn: false,
+	    	winner: null 
+		})
+	}				
 }	
 
 export default TicTacToe
