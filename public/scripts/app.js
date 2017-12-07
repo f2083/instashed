@@ -28358,142 +28358,6 @@ function symbolObservablePonyfill(root) {
 	return result;
 };
 },{}],319:[function(require,module,exports){
-"use strict";
-const cache = {};
-
-// Insert a valid game state and get an evaluation of the game state.
-//
-// Input: ['X', 'O', '', '', '', '', '', '', '']
-// Output:
-// {
-//   winner: 'X',
-//   depth: 5,
-//   nextBestGameState: ['X', 'O', '', 'X', '', '', '', '', '']
-// }
-//
-// ['X', 'O', '', '', '', '', '', '', ''] corresponds to
-//  X | O |
-//  ---------
-//    |   |
-//  ---------
-//    |  |
-//
-// Winner: wins the game with perfect play from current position.
-// Depth: shows how many moves until the game is finsihed with perfect play
-// on both sides.
-// NextBestGameState: Gives the next best move for current player.
-function computeMove(gameState) {
-  if (cache[gameState.toString()]) {
-    return cache[gameState.toString()];
-  }
-  let whoWon = determineWinner(gameState);
-  if (whoWon === 'X') {
-    return {winner: whoWon, depth: 0, nextBestGameState: gameState};
-  } else if (whoWon === 'O') {
-    return {winner: whoWon, depth: 0, nextBestGameState: gameState};
-  } else {
-    let possibleMoves = computePossibleMoves(gameState);
-    let bestMove;
-    if (possibleMoves.length == 0) {
-      bestMove = {winner: '', depth: 0, nextBestGameState: gameState};
-    } else {
-      bestMove = possibleMoves.map(evaluateGameState).reduce(getBestMove);
-    }
-    cache[gameState.toString()] = bestMove;
-    return bestMove;
-  }
-}
-
-function evaluateGameState(gameState) {
-  let evaluatedPosition = computeMove(gameState);
-  return {
-    winner: evaluatedPosition.winner,
-    depth: evaluatedPosition.depth + 1,
-    nextBestGameState: gameState,
-  };
-}
-
-function getBestMove(bestMoveFound, possibleMove) {
-  return numericValue(possibleMove) > numericValue(bestMoveFound)
-      ? possibleMove : bestMoveFound;
-}
-
-function numericValue(evaluatedState) {
-  let currentPlayer = determineTurn(evaluatedState.nextBestGameState);
-  let otherPlayer = currentPlayer === 'X' ? 'O' : 'X';
-  if (evaluatedState.winner == otherPlayer) {
-    return 20 - evaluatedState.depth;
-  } else if (evaluatedState.winner == currentPlayer) {
-    return -10 + evaluatedState.depth;
-  } else {
-    return evaluatedState.depth;
-  }
-}
-
-function computePossibleMoves(gameState) {
-  let player = determineTurn(gameState);
-  let indexValues = Array.from(Array(gameState.length).keys());
-  let emptyLocations = indexValues.filter(x => gameState[x] === '');
-  return emptyLocations.map(x => copyAssignReturn(gameState, x, player));
-}
-
-function copyAssignReturn(inputArray, location, value) {
-  let returnArray = inputArray.slice();
-  returnArray[location] = value;
-  return returnArray;
-}
-
-function determineTurn(gameState) {
-  let numberOfXs = countOccurenceOfElement(gameState, 'X');
-  let numberOfOs = countOccurenceOfElement(gameState, 'O');
-
-  return numberOfOs === numberOfXs ? 'X' : 'O';
-}
-
-function countOccurenceOfElement(elements, element) {
-  return elements.filter(square => square === element).length
-}
-
-function determineWinner(gameState) {
-  // Check vertical wins
-  for (let i = 0;i < 3;i++) {
-    if (gameState[i] === gameState[i + 3]
-      && gameState[i + 3] === gameState[i + 6]
-      && gameState[i + 6] !== '') {
-      return gameState[i];
-    }
-  }
-
-  // Check horizontal wins
-  for (let i = 0;i < 9;i += 3) {
-    if (gameState[i] === gameState[i + 1]
-      && gameState[i + 1] === gameState[i + 2]
-      && gameState[i + 2] !== '') {
-      return gameState[i];
-    }
-  }
-
-  // Check cross wins
-  if (gameState[0] === gameState[4]
-    && gameState[4] === gameState[8]
-    && gameState[8] !== '') {
-    return gameState[0];
-  }
-  if (gameState[2] === gameState[4]
-    && gameState[4] === gameState[6]
-    && gameState[6] !== '') {
-    return gameState[2];
-  }
-}
-
-module.exports = {
-   determineTurn,
-   computePossibleMoves,
-   determineWinner,
-   computeMove,
-}
-
-},{}],320:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -28550,7 +28414,7 @@ var App = function (_Component) {
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('react-container'));
 
-},{"./components/Links":325,"./components/Router":327,"react":298,"react-dom":2,"react-router":218}],321:[function(require,module,exports){
+},{"./components/Links":324,"./components/Router":326,"react":298,"react-dom":2,"react-router":218}],320:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28594,7 +28458,7 @@ function newGame(index) {
   return { type: NEW_GAME, index: index };
 }
 
-},{}],322:[function(require,module,exports){
+},{}],321:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28643,7 +28507,7 @@ var Boomerang = function (_Component) {
 
 exports.default = Boomerang;
 
-},{"react":298}],323:[function(require,module,exports){
+},{"react":298}],322:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28685,7 +28549,7 @@ var Cell = function (_Component) {
 
 exports.default = Cell;
 
-},{"react":298}],324:[function(require,module,exports){
+},{"react":298}],323:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28806,7 +28670,7 @@ var Game = function (_Component) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(Game);
 
-},{"../actions/actions":321,"../components/Tile":329,"react":298,"react-redux":166}],325:[function(require,module,exports){
+},{"../actions/actions":320,"../components/Tile":328,"react":298,"react-redux":166}],324:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28855,7 +28719,7 @@ var Links = function Links() {
 
 exports.default = Links;
 
-},{"react":298}],326:[function(require,module,exports){
+},{"react":298}],325:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28911,7 +28775,7 @@ var MemoGame = function (_Component) {
 
 exports.default = MemoGame;
 
-},{"../store/Store":333,"./Game":324,"react":298,"react-redux":166}],327:[function(require,module,exports){
+},{"../store/Store":333,"./Game":323,"react":298,"react-redux":166}],326:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28978,7 +28842,7 @@ var Navigator = function (_Router) {
 
 exports.default = Navigator;
 
-},{"../components/Game":324,"../components/MemoGame":326,"../components/TicTacToe":328,"../components/boomerangCollection":330,"react":298,"react-router":218}],328:[function(require,module,exports){
+},{"../components/Game":323,"../components/MemoGame":325,"../components/TicTacToe":327,"../components/boomerangCollection":329,"react":298,"react-router":218}],327:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28995,9 +28859,9 @@ var _Cell = require('../components/Cell');
 
 var _Cell2 = _interopRequireDefault(_Cell);
 
-var _ticTacToeAiEngine = require('tic-tac-toe-ai-engine');
+var _ttt = require('../modules/ttt');
 
-var _ticTacToeAiEngine2 = _interopRequireDefault(_ticTacToeAiEngine);
+var _ttt2 = _interopRequireDefault(_ttt);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29006,8 +28870,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-window.ticTacToeAiEngine = _ticTacToeAiEngine2.default;
 
 var TicTacToe = function (_Component) {
 	_inherits(TicTacToe, _Component);
@@ -29037,7 +28899,12 @@ var TicTacToe = function (_Component) {
 				_react2.default.createElement(
 					'button',
 					{ className: 'playAgain', onClick: this.playAgain },
-					'Play Again'
+					'Play Again!'
+				),
+				_react2.default.createElement(
+					'span',
+					{ className: this.state.winner ? '' : 'hidden' },
+					'We hame a winner'
 				),
 				_react2.default.createElement(
 					'div',
@@ -29051,12 +28918,10 @@ var TicTacToe = function (_Component) {
 	}, {
 		key: 'componentDidUpdate',
 		value: function componentDidUpdate() {
-			var winner = _ticTacToeAiEngine2.default.determineWinner(this.state.cells);
+			var winner = _ttt2.default.determineWinner(this.state.cells);
 
 			if (this.state.winner) {
-				return setTimeout(function () {
-					alert('winner');
-				}, 500);
+				return false;
 			}
 
 			if (winner) {
@@ -29064,7 +28929,7 @@ var TicTacToe = function (_Component) {
 			}
 
 			if (this.state.cpuTurn) {
-				var gameState = _ticTacToeAiEngine2.default.computeMove(this.state.cells).nextBestGameState;
+				var gameState = _ttt2.default.computeMove(this.state.cells).nextBestGameState;
 
 				return this.setState({ cells: gameState, cpuTurn: false });
 			}
@@ -29099,7 +28964,7 @@ var TicTacToe = function (_Component) {
 
 exports.default = TicTacToe;
 
-},{"../components/Cell":323,"react":298,"tic-tac-toe-ai-engine":319}],329:[function(require,module,exports){
+},{"../components/Cell":322,"../modules/ttt":331,"react":298}],328:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29142,7 +29007,7 @@ var Tile = function (_Component) {
 
 exports.default = Tile;
 
-},{"react":298}],330:[function(require,module,exports){
+},{"react":298}],329:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29225,7 +29090,7 @@ var boomerangCollection = function (_Component) {
 
 exports.default = boomerangCollection;
 
-},{"../modules/httpGet":331,"./Boomerang":322,"react":298}],331:[function(require,module,exports){
+},{"../modules/httpGet":330,"./Boomerang":321,"react":298}],330:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29253,6 +29118,135 @@ function httpGet(url) {
   }
   return new Promise(sendRequest);
 }
+
+},{}],331:[function(require,module,exports){
+'use strict';
+
+// Insert a valid game state and get an evaluation of the game state.
+//
+// Input: ['X', 'O', '', '', '', '', '', '', '']
+// Output:
+// {
+//   winner: 'X',
+//   depth: 5,
+//   nextBestGameState: ['X', 'O', '', 'X', '', '', '', '', '']
+// }
+//
+// ['X', 'O', '', '', '', '', '', '', ''] corresponds to
+//  X | O |
+//  ---------
+//    |   |
+//  ---------
+//    |  |
+//
+// Winner: wins the game with perfect play from current position.
+// Depth: shows how many moves until the game is finsihed with perfect play
+// on both sides.
+// NextBestGameState: Gives the next best move for current player.
+
+function computeMove(gameState) {
+  var whoWon = determineWinner(gameState);
+  if (whoWon === 'X') {
+    return { winner: whoWon, depth: 0, nextBestGameState: gameState };
+  } else if (whoWon === 'O') {
+    return { winner: whoWon, depth: 0, nextBestGameState: gameState };
+  } else {
+    var possibleMoves = computePossibleMoves(gameState);
+    var bestMove = void 0;
+    if (possibleMoves.length === 0) {
+      bestMove = { winner: '', depth: 0, nextBestGameState: gameState };
+    } else {
+      bestMove = possibleMoves.map(evaluateGameState).reduce(getBestMove);
+    }
+    return bestMove;
+  }
+}
+
+function evaluateGameState(gameState) {
+  var evaluatedPosition = computeMove(gameState);
+  return {
+    winner: evaluatedPosition.winner,
+    depth: evaluatedPosition.depth + 1,
+    nextBestGameState: gameState
+  };
+}
+
+function getBestMove(bestMoveFound, possibleMove) {
+  return numericValue(possibleMove) > numericValue(bestMoveFound) ? possibleMove : bestMoveFound;
+}
+
+function numericValue(evaluatedState) {
+  var currentPlayer = determineTurn(evaluatedState.nextBestGameState);
+  var otherPlayer = currentPlayer === 'X' ? 'O' : 'X';
+  if (evaluatedState.winner === otherPlayer) {
+    return 20 - evaluatedState.depth;
+  } else if (evaluatedState.winner === currentPlayer) {
+    return -10 + evaluatedState.depth;
+  } else {
+    return evaluatedState.depth;
+  }
+}
+
+function computePossibleMoves(gameState) {
+  var player = determineTurn(gameState);
+  var indexValues = Array.from(Array(gameState.length).keys());
+  var emptyLocations = indexValues.filter(function (x) {
+    return gameState[x] === '';
+  });
+  return emptyLocations.map(function (x) {
+    return copyAssignReturn(gameState, x, player);
+  });
+}
+
+function copyAssignReturn(inputArray, location, value) {
+  var returnArray = inputArray.slice();
+  returnArray[location] = value;
+  return returnArray;
+}
+
+function determineTurn(gameState) {
+  var numberOfXs = countOccurenceOfElement(gameState, 'X');
+  var numberOfOs = countOccurenceOfElement(gameState, 'O');
+
+  return numberOfOs === numberOfXs ? 'X' : 'O';
+}
+
+function countOccurenceOfElement(elements, element) {
+  return elements.filter(function (square) {
+    return square === element;
+  }).length;
+}
+
+function determineWinner(gameState) {
+  // Check vertical wins
+  for (var i = 0; i < 3; i++) {
+    if (gameState[i] === gameState[i + 3] && gameState[i + 3] === gameState[i + 6] && gameState[i + 6] !== '') {
+      return gameState[i];
+    }
+  }
+
+  // Check horizontal wins
+  for (var _i = 0; _i < 9; _i += 3) {
+    if (gameState[_i] === gameState[_i + 1] && gameState[_i + 1] === gameState[_i + 2] && gameState[_i + 2] !== '') {
+      return gameState[_i];
+    }
+  }
+
+  // Check cross wins
+  if (gameState[0] === gameState[4] && gameState[4] === gameState[8] && gameState[8] !== '') {
+    return gameState[0];
+  }
+  if (gameState[2] === gameState[4] && gameState[4] === gameState[6] && gameState[6] !== '') {
+    return gameState[2];
+  }
+}
+
+module.exports = {
+  determineTurn: determineTurn,
+  computePossibleMoves: computePossibleMoves,
+  determineWinner: determineWinner,
+  computeMove: computeMove
+};
 
 },{}],332:[function(require,module,exports){
 'use strict';
@@ -29325,7 +29319,7 @@ var slideGame = (0, _redux.combineReducers)({
 
 exports.default = slideGame;
 
-},{"../actions/actions":321,"redux":304}],333:[function(require,module,exports){
+},{"../actions/actions":320,"redux":304}],333:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29394,4 +29388,4 @@ exports.default = { slideActions: [{ turned: false,
 		fixed: false,
 		value: 1 }] };
 
-},{}]},{},[320]);
+},{}]},{},[319]);

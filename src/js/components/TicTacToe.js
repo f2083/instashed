@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import Cell from '../components/Cell'
-import ticTacToeAiEngine from 'tic-tac-toe-ai-engine'
-window.ticTacToeAiEngine = ticTacToeAiEngine 
+import ticTacToeAiEngine from '../modules/ttt'
 
 class TicTacToe extends Component{
 	constructor(props) {
 	    super(props)
+	    
 	    this.state = {
 	    	cells: ['','','','','','','','',''],
 	    	symbol: 'X',
@@ -20,8 +20,9 @@ class TicTacToe extends Component{
 		return (
 				<div className='TicTacToe'>
 					<button className='playAgain' onClick={this.playAgain}>
-						Play Again
+						Play Again!
 					</button>
+					<span className={this.state.winner?'':'hidden'}>We hame a winner</span>
 					<div className='Board' onClick={this.handleClick}>
 						{this.state.cells.map((item, key)=> {
 							return <Cell key={key} index={key} klass={item}>
@@ -36,7 +37,7 @@ class TicTacToe extends Component{
 		let winner = ticTacToeAiEngine.determineWinner(this.state.cells)
 
 		if(this.state.winner){
-			return setTimeout(function(){alert('winner')}, 500)
+			return false
 		}
 
 		if (winner) {
