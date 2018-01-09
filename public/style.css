@@ -446,19 +446,21 @@ template {
   display: none;
 }
 
-
+.hidden{
+  display: none!important;
+}
 
 .CloudImage {
-    height: 300px;
-    overflow: hidden;
-    margin: 30px;
+  height: 300px;
+  overflow: hidden;
+  margin: 30px;
 }
 
 .CloudImage img {
-    height: 100%;
-    width: auto;
-    position: relative;
-    right: 11px;
+  height: 100%;
+  width: auto;
+  position: relative;
+  right: 11px;
 }
 
 .boomerangCollection{
